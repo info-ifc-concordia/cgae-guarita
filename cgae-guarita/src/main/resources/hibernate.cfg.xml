@@ -42,7 +42,7 @@
 		<property name="hibernate.cache.region.factory_class">org.hibernate.cache.ehcache.EhCacheRegionFactory</property>
 		<property name="hibernate.cache.provider_class">org.hibernate.cache.EhCacheProvider</property>
 
-  		<!-- <mapping class="org.forpdi.core.company.Company"/>-->
+  		<mapping class="br.edu.ifc.concordia.inf.cgaeguarita.model.User"/>
   		
 	</session-factory>
 </hibernate-configuration>
