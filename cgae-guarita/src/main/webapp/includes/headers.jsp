@@ -5,32 +5,15 @@
 <html>
 <head>
 	<meta charset="UTF-8" />
-	<title>Vetec</title>
+	<title>CGAE - Guarita</title>
 	<link rel="stylesheet" type="text/css" href="<c:url value="/css/tether.min.css" />" />
-	<link rel="stylesheet" type="text/css" href="<c:url value="/bootstrap/css/bootstrap.min.css" />" />
+	<link rel="stylesheet" type="text/css" href="<c:url value="/materialize/css/materialize.min.css" />" />
+	<link rel="stylesheet" href="http://fonts.googleapis.com/icon?family=Material+Icons">
 </head>
 <body>
-	<nav class="navbar navbar-toggleable-md navbar-inverse bg-primary">
-	  <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-	    <span class="navbar-toggler-icon"></span>
-	  </button>
-	  <a class="navbar-brand" href="<c:url value="/" />">LOGO</a>
+
+	<header class="card-panel grey lighten-3 z-depth-1">
 	
-	  <div class="collapse navbar-collapse" id="navbarSupportedContent">
-	    <ul class="navbar-nav mr-auto">
-	      <li class="nav-item">
-	        <a class="nav-link" href="<c:url value="/" />">Home</a>
-	      </li>
-	      <li class="nav-item">
-	        <a class="nav-link" href="<c:url value="/login" />">Entrar</a>
-	      </li>
-	      <li class="nav-item">
-	        <a class="nav-link disabled" href="#">Disabled</a>
-	      </li>
-	    </ul>
-	    <form class="form-inline my-2 my-lg-0">
-	      <input class="form-control mr-sm-2" type="text" placeholder="Search">
-	      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-	    </form>
-	  </div>
-	</nav>
+		<img src="<c:url value="/img/logo-ifc.png" />">
+	</header>
+	
