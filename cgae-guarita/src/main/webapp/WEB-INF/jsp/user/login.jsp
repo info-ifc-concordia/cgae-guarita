@@ -8,7 +8,7 @@
     <div class="col s3">
         <!-- ESPAÇAMENTO LATERAL -->
     </div>
-    <form class="col s6" action="pages/search.html" method="get">
+    <form class="col s6">
         <div class="input-field col s12">
             <i class="material-icons prefix">account_circle</i>
             <input type="text" id="name">
