@@ -19,8 +19,12 @@
 	        </div>
 	
 	        <div class="input-field center-align">
-	            <a class="card-panel waves-effect waves-light">
-	                <img src="http://www.motsandco.com/wp-content/uploads/avatar-1-300x300.png" class="circle responsive-img">
+	            <a class="card-panel waves-effect waves-light ">
+	            	<label>
+	                	<img src="<c:import url="/img/avatar.png"/>" class="circle responsive-img">
+	                </label>
+	                
+	                <input type="file" id="fileInput"/>
 	            </a>
 	            <p class="center-align">Clique na imagem para alterar</p>
 	        </div>
