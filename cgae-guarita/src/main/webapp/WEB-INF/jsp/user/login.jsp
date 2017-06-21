@@ -5,24 +5,29 @@
 
 <h3 class="center green-text text-draken-1">Login de Usuário</h3>
 <div class="row">
-    <div class="col s3">
-        <!-- ESPAÇAMENTO LATERAL -->
-    </div>
-    <form class="col s6">
+    <form class="col s6 offset-s3" method="POST"
+    		action="<c:url value="/login" />">
+        <c:if test="${not empty errorMsg}">
+	        <div class="alert">
+	        	${errorMsg}
+	        </div>
+        </c:if>
         <div class="input-field col s12">
             <i class="material-icons prefix">account_circle</i>
-            <input type="text" id="name">
-            <label for="name">Nome de Usuário</label>
+            <input type="text" name="username" id="username" class="validate" required />
+            <label for="username">Nome de Usuário</label>
         </div>
         <!--  -->
         <div class="input-field col s12">
             <i class="material-icons prefix">vpn_key</i>
-            <input type="password" id="password">
+            <input type="password" name="password" id="password" />
             <label for="password">Senha</label><br>
-            <a href="http://www.google.com">Mudar Senha</a>
         </div>
         <!--  -->
         <div class="input-field col s12 center-align">
+        	<p><a href="<c:url value="/recover-password" />">
+        		Recuperar senha
+        	</a></p>
             <button type="submit" class="green darken-1 waves-effect waves-light btn">
                 Entrar
                 <i class="material-icons right">send</i>
