@@ -8,11 +8,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import br.edu.ifc.concordia.inf.cgaeguarita.permission.UserRoles;
+
 @Entity(name="users")
 @Table(name="users")
 public class User implements Serializable {
-
-	
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -23,7 +23,7 @@ public class User implements Serializable {
 	private String email;
 	private String username;
 	private String senha;
-	private int accesso;
+	private int accesso = UserRoles.NORMAL.getAccessLevel();
 	
 	public Long getId() {
 		return id;

@@ -9,5 +9,5 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Permission {
 
-	UserRoles value() default UserRoles.COOPERATOR;
+	UserRoles value() default UserRoles.NORMAL;
 }

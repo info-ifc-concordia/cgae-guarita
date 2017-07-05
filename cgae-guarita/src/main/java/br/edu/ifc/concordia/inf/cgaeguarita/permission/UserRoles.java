@@ -2,7 +2,7 @@ package br.edu.ifc.concordia.inf.cgaeguarita.permission;
 
 public enum UserRoles {
 	
-	COOPERATOR(1),
+	NORMAL(1),
 	MANAGER(4),
 	ADMIN(7),
 	SYS_ADMIN(10);

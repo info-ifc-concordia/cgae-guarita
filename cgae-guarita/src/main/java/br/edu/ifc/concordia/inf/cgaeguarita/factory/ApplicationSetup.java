@@ -24,6 +24,7 @@ import br.com.caelum.vraptor.boilerplate.factory.SessionFactoryProducer;
 import br.com.caelum.vraptor.boilerplate.factory.SessionManager;
 import br.com.caelum.vraptor.boilerplate.util.CryptManager;
 import br.edu.ifc.concordia.inf.cgaeguarita.model.User;
+import br.edu.ifc.concordia.inf.cgaeguarita.permission.UserRoles;
 import br.edu.ifc.concordia.inf.cgaeguarita.properties.SystemConfigs;
 
 @ApplicationScoped
@@ -58,7 +59,7 @@ public class ApplicationSetup {
 			user.setEmail("admin@admin");
 			user.setUsername("admin");
 			user.setSenha(CryptManager.passwordHash("adm12345"));
-			user.setAccesso(10);
+			user.setAccesso(UserRoles.SYS_ADMIN.getAccessLevel());
 			dao.persist(user);
 		}
 		
