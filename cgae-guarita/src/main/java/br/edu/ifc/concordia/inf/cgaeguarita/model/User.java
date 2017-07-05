@@ -2,6 +2,7 @@ package br.edu.ifc.concordia.inf.cgaeguarita.model;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -20,7 +21,9 @@ public class User implements Serializable {
 	private Long id;
 	
 	private String nome;
+	@Column(unique=true)
 	private String email;
+	@Column(unique=true)
 	private String username;
 	private String senha;
 	private int accesso = UserRoles.NORMAL.getAccessLevel();

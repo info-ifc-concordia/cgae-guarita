@@ -11,6 +11,8 @@ import br.edu.ifc.concordia.inf.cgaeguarita.IndexController;
 import br.edu.ifc.concordia.inf.cgaeguarita.abstractions.AbstractController;
 import br.edu.ifc.concordia.inf.cgaeguarita.business.UserBS;
 import br.edu.ifc.concordia.inf.cgaeguarita.model.User;
+import br.edu.ifc.concordia.inf.cgaeguarita.permission.Permission;
+import br.edu.ifc.concordia.inf.cgaeguarita.permission.UserRoles;
 
 @Controller
 public class UserController extends AbstractController {
@@ -34,6 +36,22 @@ public class UserController extends AbstractController {
 		} else {
 			this.userSession.login(user);
 			this.result.redirectTo(IndexController.class).index();
+		}
+	}
+
+	@Get(value="/users")
+	@NoCache
+	@Permission(UserRoles.ADMIN)
+	public void usersList() {
+		
+	}
+	
+	@Get(value="/users/register")
+	@NoCache
+	@Permission(UserRoles.ADMIN)
+	public void register(String errorMsg) {
+		if (!GeneralUtils.isEmpty(errorMsg)) {
+			this.result.include("errorMsg", errorMsg);
 		}
 	}
 	
