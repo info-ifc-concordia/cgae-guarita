@@ -15,8 +15,9 @@ public class UserBS extends HibernateBusiness {
 	public User login(String username, String password) {
 		Criteria criteria = this.dao.newCriteria(User.class);
 		criteria.add(Restrictions.eq("username", username));
-		criteria.add(Restrictions.eq("senha",
+		criteria.add(Restrictions.eq("password",
 				CryptManager.passwordHash(password)));
 		return (User) criteria.uniqueResult();
 	}
+	
 }

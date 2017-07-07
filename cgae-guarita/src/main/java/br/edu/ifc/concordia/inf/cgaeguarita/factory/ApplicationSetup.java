@@ -34,6 +34,7 @@ public class ApplicationSetup {
 	private static final Logger LOG = Logger.getLogger(ApplicationSetup.class);
 
 	protected ApplicationSetup() {
+		
 	}
 
 	public void initializeAtStartup(@Observes ServletContext context) {
@@ -55,10 +56,10 @@ public class ApplicationSetup {
 		User user = (User) criteria.uniqueResult();
 		if (user == null) {
 			user = new User();
-			user.setNome("Administrador Padrão");
+			user.setName("Administrador Padrão");
 			user.setEmail("admin@admin");
 			user.setUsername("admin");
-			user.setSenha(CryptManager.passwordHash("adm12345"));
+			user.setPassword(CryptManager.passwordHash("adm12345"));
 			user.setAccesso(UserRoles.SYS_ADMIN.getAccessLevel());
 			dao.persist(user);
 		}

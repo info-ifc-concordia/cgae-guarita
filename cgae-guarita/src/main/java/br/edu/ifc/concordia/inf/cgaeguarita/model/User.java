@@ -20,12 +20,12 @@ public class User implements Serializable {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
 	
-	private String nome;
+	private String name;
 	@Column(unique=true)
 	private String email;
 	@Column(unique=true)
 	private String username;
-	private String senha;
+	private String password;
 	private int accesso = UserRoles.NORMAL.getAccessLevel();
 	
 	public Long getId() {
@@ -34,17 +34,17 @@ public class User implements Serializable {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	public String getNome() {
-		return nome;
+	public String getName() {
+		return name;
 	}
-	public void setNome(String nome) {
-		this.nome = nome;
+	public void setName(String name) {
+		this.name = name;
 	}
-	public String getSenha() {
-		return senha;
+	public String getPassword() {
+		return password;
 	}
-	public void setSenha(String senha) {
-		this.senha = senha;
+	public void setPassword(String password) {
+		this.password = password;
 	}
 	public String getEmail() {
 		return email;
