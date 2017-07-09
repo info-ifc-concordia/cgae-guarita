@@ -6,7 +6,7 @@
 <h3 class="center-align ifc-color-1-text">Cadastro de Novo Usuário</h3>
 <div class="row">		
     <form class="col s6 offset-s3" method="POST"
-    		action="<c:url value="/users/perfil" />">
+    		action="<c:url value="/users/register" />">
     		
 		<div class="input-field">
         	<i class="material-icons prefix">account_circle</i>
@@ -27,7 +27,7 @@
         </div>
         
         <div class="input-field">
-           <select>
+           <select name="userType">
                <option value="" disabled selected>Tipo de Usuário</option>
                <option value="CGAE">CGAE</option>
                <option value="Guarita">Guarita</option>
@@ -36,13 +36,13 @@
         
         <div class="input-field">
         	<i class="material-icons prefix">vpn_key</i>
-            <input id="password" type="password">
+            <input name="password" id="password" type="password">
             <label for="password">Senha</label>
         </div>
         
         <div class="input-field">
         	<i class="material-icons prefix grey-text text-darken-1">vpn_key</i>
-            <input id="repassword" type="password">
+            <input name="rePassword" id="repassword" type="password">
             <label for="repassword">Confirmar Senha</label>
         </div>
 

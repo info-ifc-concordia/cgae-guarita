@@ -28,11 +28,11 @@ public class PermissionInterceptor {
 	public void intercept(SimpleInterceptorStack stack) {
 		if (!this.userSession.isLogged()) {
 			this.result.redirectTo(UserController.class).login("Você precisar fazer login para acessar esta página.");
-		} else if (this.userSession.getUser().getAccesso() >= UserRoles.SYS_ADMIN.getAccessLevel()) {
+		} else if (this.userSession.getUser().getAccess() >= UserRoles.SYS_ADMIN.getAccessLevel()) {
 			stack.next();
 		} else {
 			Permission perm = this.method.getMethod().getAnnotation(Permission.class);
-			if (this.userSession.getUser().getAccesso() >= perm.value().getAccessLevel()) {
+			if (this.userSession.getUser().getAccess() >= perm.value().getAccessLevel()) {
 				stack.next();
 			} else {
 				this.httpResponse.setStatus(HttpServletResponse.SC_UNAUTHORIZED);

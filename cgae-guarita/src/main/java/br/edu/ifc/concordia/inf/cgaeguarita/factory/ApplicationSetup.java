@@ -60,7 +60,7 @@ public class ApplicationSetup {
 			user.setEmail("admin@admin");
 			user.setUsername("admin");
 			user.setPassword(CryptManager.passwordHash("adm12345"));
-			user.setAccesso(UserRoles.SYS_ADMIN.getAccessLevel());
+			user.setAccess(UserRoles.SYS_ADMIN.getAccessLevel());
 			dao.persist(user);
 		}
 		
