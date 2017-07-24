@@ -64,8 +64,4 @@ public class User implements Serializable {
 	public void setAccess(int access) {
 		this.access = access;
 	}
-	
-	
-	
-	
 }

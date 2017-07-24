@@ -50,11 +50,6 @@ public class UserController extends AbstractController {
 		
 	}
 	
-	@Path("/register")
-	public void register() {
-		
-	}
-	
 	@Get(value="/users/register")
 	@NoCache
 	@Permission(UserRoles.ADMIN)
