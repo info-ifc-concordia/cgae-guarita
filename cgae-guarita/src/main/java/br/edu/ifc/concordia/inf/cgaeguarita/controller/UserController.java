@@ -81,4 +81,18 @@ public class UserController extends AbstractController {
 		
 	}
 	
+	@Get(value="/users/control")
+	@NoCache
+	@Permission(UserRoles.ADMIN)
+	public void userList() {
+		
+	}
+	
+	@Get(value="/users/change-password")
+	@NoCache
+	@Permission(UserRoles.ADMIN)
+	public void changePassword(String userInfo) {
+		
+	}
+	
 }
