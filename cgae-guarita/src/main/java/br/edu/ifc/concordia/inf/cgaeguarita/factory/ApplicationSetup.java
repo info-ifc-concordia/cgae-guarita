@@ -23,6 +23,7 @@ import br.com.caelum.vraptor.boilerplate.HibernateDAO;
 import br.com.caelum.vraptor.boilerplate.factory.SessionFactoryProducer;
 import br.com.caelum.vraptor.boilerplate.factory.SessionManager;
 import br.com.caelum.vraptor.boilerplate.util.CryptManager;
+import br.edu.ifc.concordia.inf.cgaeguarita.model.Student;
 import br.edu.ifc.concordia.inf.cgaeguarita.model.User;
 import br.edu.ifc.concordia.inf.cgaeguarita.permission.UserRoles;
 import br.edu.ifc.concordia.inf.cgaeguarita.properties.SystemConfigs;
@@ -51,9 +52,9 @@ public class ApplicationSetup {
 		SessionManager mngr = new SessionManager(factoryProducer.getInstance());
 		HibernateDAO dao = new HibernateDAO(mngr);
 		
-		Criteria criteria = dao.newCriteria(User.class);
-		criteria.add(Restrictions.eq("username", "admin"));
-		User user = (User) criteria.uniqueResult();
+		Criteria userCriteria = dao.newCriteria(User.class);
+		userCriteria.add(Restrictions.eq("username", "admin"));
+		User user = (User) userCriteria.uniqueResult();
 		if (user == null) {
 			user = new User();
 			user.setName("Administrador Padrão");
@@ -61,6 +62,7 @@ public class ApplicationSetup {
 			user.setUsername("admin");
 			user.setPassword(CryptManager.passwordHash("adm12345"));
 			user.setAccess(UserRoles.SYS_ADMIN.getAccessLevel());
+			
 			dao.persist(user);
 		}
 		
