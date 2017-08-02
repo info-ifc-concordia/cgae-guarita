@@ -9,8 +9,30 @@
 			${userInfo}
 		</div>-->
 		<div class="col s6 offset-s3">
-			<div class="col s12 card panel">
-				Nome do usuário
+			<div class="card-panel">
+				<form action="" method="GET">
+					<input type="search" name="filter" placeholder="Buscar por nome" value="${filter}" />
+				</form>
+				<table class="bordered">
+					<thead>
+						<tr>
+							<th>ID#</th>
+							<th>Nome</th>
+							<th>E-mail</th>
+						</tr>
+					</thead>
+					<tbody>
+						<c:forEach items="${users}" var="user">
+							<tr>
+								<td>${user.id}</td>
+								<td><a href="<c:url value="/users/${user.id}/edit" />">
+									${user.name}
+								</a></td>
+								<td>${user.email}</td>
+							</tr>
+						</c:forEach>
+					</tbody>
+				</table>
 			</div>
 		</div>
 	</div>

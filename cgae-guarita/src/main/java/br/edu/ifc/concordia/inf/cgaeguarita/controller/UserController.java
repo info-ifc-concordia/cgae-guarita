@@ -1,10 +1,11 @@
 package br.edu.ifc.concordia.inf.cgaeguarita.controller;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import br.com.caelum.vraptor.Controller;
 import br.com.caelum.vraptor.Get;
-import br.com.caelum.vraptor.Path;
 import br.com.caelum.vraptor.Post;
 import br.com.caelum.vraptor.boilerplate.NoCache;
 import br.com.caelum.vraptor.boilerplate.factory.SessionFactoryProducer;
@@ -84,8 +85,9 @@ public class UserController extends AbstractController {
 	@Get(value="/users/control")
 	@NoCache
 	@Permission(UserRoles.ADMIN)
-	public void userList() {
-		
+	public void userList(String filter) {
+		List<User> users = this.bs.listAllUsers(filter);
+		this.result.include("users", users);
 	}
 	
 	@Get(value="/users/change-password")
@@ -93,6 +95,23 @@ public class UserController extends AbstractController {
 	@Permission(UserRoles.ADMIN)
 	public void changePassword(String userInfo) {
 		
+	}
+	
+
+	@Get(value="/users/{id}/edit")
+	@NoCache
+	@Permission(UserRoles.ADMIN)
+	public void userEdit(Long id) {
+		if (id == null) {
+			this.result.notFound();
+		} else {
+			User user = this.bs.exists(id, User.class);
+			if (user == null) {
+				this.result.notFound();
+			} else {
+				this.result.include("user", user);
+			}
+		}
 	}
 	
 }

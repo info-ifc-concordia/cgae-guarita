@@ -2,6 +2,7 @@ package br.edu.ifc.concordia.inf.cgaeguarita.business;
 
 import java.security.GeneralSecurityException;
 import java.security.SecureRandom;
+import java.util.List;
 
 import javax.enterprise.context.RequestScoped;
 import javax.net.ssl.KeyManager;
@@ -9,6 +10,7 @@ import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
 
 import org.hibernate.Criteria;
+import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Restrictions;
 
 import br.com.caelum.vraptor.boilerplate.HibernateBusiness;
@@ -16,6 +18,7 @@ import br.com.caelum.vraptor.boilerplate.HibernateDAO;
 import br.com.caelum.vraptor.boilerplate.factory.SessionFactoryProducer;
 import br.com.caelum.vraptor.boilerplate.factory.SessionManager;
 import br.com.caelum.vraptor.boilerplate.util.CryptManager;
+import br.com.caelum.vraptor.boilerplate.util.GeneralUtils;
 import br.edu.ifc.concordia.inf.cgaeguarita.factory.ApplicationSetup.DefaultTrustManager;
 import br.edu.ifc.concordia.inf.cgaeguarita.model.User;
 import br.edu.ifc.concordia.inf.cgaeguarita.permission.UserRoles;
@@ -30,6 +33,14 @@ public class UserBS extends HibernateBusiness {
 		criteria.add(Restrictions.eq("password",
 				CryptManager.passwordHash(password)));
 		return (User) criteria.uniqueResult();
+	}
+	
+	public List<User> listAllUsers(String filter) {
+		Criteria criteria = this.dao.newCriteria(User.class);
+		if (!GeneralUtils.isEmpty(filter)) {
+			criteria.add(Restrictions.ilike("name", filter, MatchMode.ANYWHERE));
+		}
+		return this.dao.findByCriteria(criteria, User.class);
 	}
 
 	public void registerNewUser(SessionFactoryProducer factoryProducer, 
