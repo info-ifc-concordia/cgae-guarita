@@ -38,7 +38,25 @@ public class StudentController extends AbstractController {
 		
 		SessionFactoryProducer factoryProducer = new SessionFactoryProducer();
 		this.sbs.registerNewStudent(factoryProducer, registration, name, course, grade);
-		this.result.redirectTo(UserController.class).profile();
+		this.result.redirectTo(UserController.class).profileCGAE();
+		
+	}
+	
+	@Get(value="/students/aluno")
+	@NoCache
+	public void aluno() {
+		
+	}
+	
+	@Get(value="/students/historico")
+	@NoCache
+	public void historico() {
+		
+	}
+	
+	@Get(value="/students/observacoes")
+	@NoCache
+	public void observacoes() {
 		
 	}
 	

@@ -1,3 +1,4 @@
+
 package br.edu.ifc.concordia.inf.cgaeguarita.permission;
 
 import javax.enterprise.context.RequestScoped;
@@ -27,7 +28,8 @@ public class PermissionInterceptor {
 	@AroundCall
 	public void intercept(SimpleInterceptorStack stack) {
 		if (!this.userSession.isLogged()) {
-			this.result.redirectTo(UserController.class).login("Você precisar fazer login para acessar esta página.");
+			this.result.redirectTo(UserController.class).login("Você precisar fazer login para acessar esta página.", 
+					"invalid", "invalid");
 		} else if (this.userSession.getUser().getAccess() >= UserRoles.SYS_ADMIN.getAccessLevel()) {
 			stack.next();
 		} else {
@@ -36,7 +38,7 @@ public class PermissionInterceptor {
 				stack.next();
 			} else {
 				this.httpResponse.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-				this.result.nothing();
+				this.result.redirectTo(UserController.class).login("Você não tem permissão para acessar esta página.", "", "");
 			}
 		}
 	}

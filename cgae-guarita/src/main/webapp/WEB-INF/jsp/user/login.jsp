@@ -3,32 +3,28 @@
 
 <c:import url="/includes/headers.jsp" />
 
-<h3 class="center green-text text-draken-1">Login de Usuário</h3>
+<h3 class="center-align">Login de Usuário</h3>
 <div class="row">
     <form class="col s6 offset-s3" method="POST"
     		action="<c:url value="/login" />">
-        <c:if test="${not empty errorMsg}">
-	        <div class="alert">
-	        	${errorMsg}
-	        </div>
-        </c:if>
-        <div class="input-field col s12">
+        <h6 class="red-text">${errorMsg}</h6>
+        <div class="input-field">
             <i class="material-icons prefix">account_circle</i>
-            <input type="text" name="username" id="username" class="validate" required />
+            <input type="text" name="username" id="username" class="${usrNameMsg}" />
             <label for="username">Nome de Usuário</label>
         </div>
         <!--  -->
-        <div class="input-field col s12">
+        <div class="input-field">
             <i class="material-icons prefix">vpn_key</i>
-            <input type="password" name="password" id="password" />
+            <input type="password" name="password" id="password" class="${passMsg}" />
             <label for="password">Senha</label><br>
         </div>
         <!--  -->
-        <div class="input-field col s12 center-align">
-        	<p><a href="<c:url value="/recover-password" />">
-        		Recuperar senha
-        	</a></p>
-            <button type="submit" class="green darken-1 waves-effect waves-light btn">
+        <p><a href="<c:url value="/users/recover-password" />">
+       		Recuperar senha
+       	</a></p>
+        <div class="input-field center-align">
+            <button type="submit" class="btn ifc-green waves-effect waves-light">
                 Entrar
                 <i class="material-icons right">send</i>
             </button>

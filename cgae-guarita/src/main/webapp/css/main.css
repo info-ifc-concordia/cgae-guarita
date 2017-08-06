@@ -2,47 +2,87 @@
 COR DA LOGO DO IFC:#389c3a
 COR QUE TÀ NO SITE DO IFC: #096318
 */
+#searchNavBar + label {
+	display: block;
+	color: #fff;
+}
 
-.ifc-color-1 {
+#searchNavBar:focus + label {
+	display: none;
+}
+
+/* IFC GREEN */
+.ifc-green {
     background-color: #389c3a;
 }
 
-.ifc-color-1-text {
+.input-field .ifc-green:hover {
+    background-color: #096318 !important;
+}
+
+.ifc-green-text {
     color: #389c3a;
 }
 
-.ifc-color-2 {
-    background-color: #096318;
+/* IFC RED */
+.ifc-red {
+    background-color: #ca1c23;
 }
 
-.ifc-color-2-text {
-    color: #096318;
+.input-field .ifc-red:hover {
+    background-color: #910a10 !important;
+}
+
+.ifc-red-text {
+    color: #ca1c23;
+}
+
+/* INVISIBLE */
+.invisible {
+	display: none !important;
+}
+
+/* INVALID */
+.invalid {
+	border-bottom: 1px solid #f44336 !important;
+	box-shadow: 0 1px 0 0 #f44336 !important;
 }
 
 /* label color */
-.input-field label {
- color: #1c1c1c;
+.input-field input[type=text] + label, 
+.input-field input[type=password] + label,
+.input-field input[type=email] + label {
+	color: #389c3a;
+	font-weight: 500;
 }
+
 /* label focus color */
-.input-field input[type=text]:focus + label, .input-field input[type=password]:focus + label {
- color: #389e3c;
+.input-field input[type=text]:focus + label, 
+.input-field input[type=password]:focus + label,
+.input-field input[type=email]:focus + label {
+	color: #096318;
 }
+
 /* label underline focus color */
-.input-field input[type=text]:focus, .input-field input[type=password]:focus {
- border-bottom: 1px solid #1c1c1c;
- box-shadow: 0 1px 0 0 #1c1c1c;
+.input-field input[type=text]:focus, 
+.input-field input[type=password]:focus,
+.input-field input[type=email]:focus {
+	border-bottom: 1px solid #1c1c1c;
+	box-shadow: 0 1px 0 0 #1c1c1c;
 }
-/* valid color */
-.input-field input[type=text].valid {
- border-bottom: 1px solid #1c1c1c;
- box-shadow: 0 1px 0 0 #1c1c1c;
-}
-/* invalid color */
-.input-field input[type=text].invalid {
- border-bottom: 1px solid #1c1c1c;
- box-shadow: 0 1px 0 0 #1c1c1c;
-}
+
 /* icon prefix focus color */
 .input-field .prefix.active {
- color: #1c1c1c;
+	 color: #1c1c1c;
 }
+
+/* sticky (fingers) footer */
+body {
+	display: flex;
+	min-height: 100vh;
+	flex-direction: column;
+}
+
+main {
+	flex: 1 0 auto;
+ }

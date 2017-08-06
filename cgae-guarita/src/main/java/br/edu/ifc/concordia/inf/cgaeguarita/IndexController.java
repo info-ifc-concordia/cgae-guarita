@@ -9,13 +9,9 @@ import br.edu.ifc.concordia.inf.cgaeguarita.permission.Permission;
 
 @Controller
 public class IndexController extends AbstractController {
-	
-	
 	@Path(value="/", priority=Path.HIGHEST)
 	@NoCache
-	@Permission
 	public void index() {
-		
+		this.result.redirectTo(UserController.class).login("", "", "");
 	}
-	
 }

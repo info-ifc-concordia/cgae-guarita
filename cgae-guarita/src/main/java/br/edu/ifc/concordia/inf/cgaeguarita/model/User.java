@@ -26,6 +26,7 @@ public class User implements Serializable {
 	@Column(unique=true)
 	private String username;
 	private String password;
+	private String userType;
 	private int access = UserRoles.NORMAL.getAccessLevel();
 	
 	public Long getId() {
@@ -57,6 +58,12 @@ public class User implements Serializable {
 	}
 	public void setUsername(String username) {
 		this.username = username;
+	}
+	public String getUserType() {
+		return userType;
+	}
+	public void setUserType(String userType) {
+		this.userType = userType;
 	}
 	public int getAccess() {
 		return access;

@@ -22,12 +22,12 @@
 
 <!-- Código vem aqui -->
 
-<nav class="ifc-color-1">
+<nav class="ifc-green">
     <div class="nav-wrapper">
         <form>
             <div class="input-field">
-                <input id="search_btn_search" type="search" required>
-                <label id="search_lb_search" for="search" class="grey-text text-lighten-4">
+                <input id="searchNavBar" type="search" required>
+                <label id="searchNavBar" for="search" class="white-text">
                     Insira a Matricula aqui
                 </label>
                 <i class="material-icons">close</i>
@@ -54,13 +54,13 @@
     <div class="row">
         <p class="col s4">Última Observação</p>
         <div class="input-field col s5 right-align">
-            <a class="ifc-color-1 waves-effect waves-light btn" href="#modal2">
+            <a class="ifc-green waves-effect waves-light btn" href="#modal2">
                 Nova Observação
                 <i class="material-icons right">library_add</i>
             </a>
         </div>
         <div class="input-field col s3 right-align">
-            <button type="submit" class="ifc-color-1 waves-effect waves-light btn">
+            <button type="submit" class="ifc-green waves-effect waves-light btn">
                 Visão Geral
                 <i class="material-icons right">visibility</i>
             </button>

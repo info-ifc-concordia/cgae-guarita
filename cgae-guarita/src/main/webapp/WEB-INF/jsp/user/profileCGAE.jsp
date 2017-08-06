@@ -3,13 +3,13 @@
 
 <c:import url="/includes/headers.jsp" />
 
-	<nav class="ifc-color-1">
+	<nav class="ifc-green">
 	    <div class="nav-wrapper">
 	        <form>
 	            <div class="input-field">
-	                <input id="search_btn_search" type="search" required>
-	                <label id="search_lb_search" for="search" class="grey-text text-lighten-4">
-	                    Insira a Matricula aqui
+	                <input name="search" id="searchNavBar" type="search" required>
+	                <label for="searchNavBar" class="white-text">
+	                    Buscar aluno pelo número de matrícula
 	                </label>
 	                <i class="material-icons">close</i>
 	            </div>
@@ -19,33 +19,40 @@
 	<br>
 	
 	<div class="row">
-		<div class="col s4 offset-s4">
+		<form class="col s4 offset-s4" method="POST"
+				action="<c:url value="/users/cgae/profile" />">
 	       
 	       <div class="input-field col s12 center-align">
-	           <a class="col s12 green darken-1 waves-effect waves-light btn" href="<c:url value="/students/register"/>">
+	           <a class="col s12 ifc-green waves-effect waves-light btn" href="<c:url value="/students/register"/>">
 	               Cadastrar Novo Aluno
 	           </a>
 	       </div>
 	       
 	       <div class="input-field col s12 center-align">
-	           <a class="col s12 green darken-1 waves-effect waves-light btn" href="<c:url value="/users/register"/>">
+	           <a class="col s12 ifc-green waves-effect waves-light btn" href="<c:url value="/users/register"/>">
 	               Cadastrar Novo Usuário
 	           </a>
 	       </div>
 	       
 	       <div class="input-field col s12 center-align">
-	           <a class="col s12 green darken-1 waves-effect waves-light btn" href="<c:url value="/users/control"/>">
+	           <a class="col s12 ifc-green waves-effect waves-light btn" href="<c:url value="/users/control"/>">
 	               Controlar Usuários
 	           </a>
 	       </div>
 	       
 	       <div class="input-field col s12 center-align">
-	           <a class="col s12 green darken-1 waves-effect waves-light btn" href="<c:url value="/users/change-password"/>">
-	               Alterar Senha
+	           <a class="col s12 ifc-green waves-effect waves-light btn" href="<c:url value="/users/change-data"/>">
+	               Alterar Dados
 	           </a>
 	       </div>
 	       
-        </div>
+	       <div class="input-field col s12 center-align">
+	           <button class="col s12 ifc-green waves-effect waves-light btn" type="submit">
+	               Sair
+	           </button>
+	       </div>
+	       
+        </form>
 	</div>
 	
 

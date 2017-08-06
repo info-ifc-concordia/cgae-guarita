@@ -5,7 +5,7 @@
 
 <div class="row">
 	<div class="col s6 offset-s3">
-	    <h3 class="center-align ifc-color-1-text">Cadastro de Novo Aluno</h3>
+	    <h3 class="center-align">Cadastro de Novo Aluno</h3>
 	
 	    <form class="" action="<c:url value="/students/register" />" method="POST">
 	
@@ -37,11 +37,11 @@
 	
 	        <div class="input-field">
 	            <input name="grade" id="grade" type="text">
-	            <label for="grade">Turma do Alunos</label>
+	            <label for="grade">Turma do Aluno</label>
 	        </div>
 	
 		    <div class="input-field col s12 center-align">
-	            <button type="submit" class="green darken-1 waves-effect waves-light btn">
+	            <button type="submit" class="btn ifc-green waves-effect waves-light">
 	                Cadastrar
 	            </button>
 	        </div>
