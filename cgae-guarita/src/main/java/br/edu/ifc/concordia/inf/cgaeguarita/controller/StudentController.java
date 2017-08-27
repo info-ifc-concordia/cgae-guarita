@@ -1,5 +1,9 @@
 package br.edu.ifc.concordia.inf.cgaeguarita.controller;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import javax.inject.Inject;
 
 import br.com.caelum.vraptor.Controller;
@@ -23,9 +27,15 @@ public class StudentController extends AbstractController {
 	@Get(value="/students/register")
 	@NoCache
 	@Permission(UserRoles.ADMIN)
-	public void register(String errorMsg) {
+	public void register(String errorMsg, List<String> inputCls, List<String> inputVal) {
 		if (!GeneralUtils.isEmpty(errorMsg)) {
 			this.result.include("errorMsg", errorMsg);
+		}
+		if (!GeneralUtils.isEmpty(inputCls)) {
+			this.result.include("inputCls", inputCls);
+		}
+		if (!GeneralUtils.isEmpty(inputVal)) {
+			this.result.include("inputVal", inputVal);
 		}
 	}
 	
@@ -35,7 +45,28 @@ public class StudentController extends AbstractController {
 	@Permission(UserRoles.ADMIN)
 	public void doRegister(String registration, String name, 
 			String course, String grade) {
-		
+		List<String> classes = new ArrayList<String>();
+		List<String> inputs = new ArrayList<String>();
+		if ((registration == null) || (name == null) || (course == null)
+				|| (grade == null)) {
+			
+			List<String> values = Arrays.asList(registration, name, 
+					course, grade);
+			int i = 0;
+			for(String x : values) {
+				if (x == null) {
+						classes.add("invalid");
+				} else {
+					classes.add("");
+				}
+				i += 1;
+				inputs.add(x);
+			}
+			if (classes.contains("invalid")) {
+				this.result.redirectTo(this).register("Os campos devem ser preenchidos!",
+					classes, inputs);
+			}
+		}
 		SessionFactoryProducer factoryProducer = new SessionFactoryProducer();
 		this.sbs.registerNewStudent(factoryProducer, registration, name, course, grade);
 		this.result.redirectTo(UserController.class).profileCGAE();

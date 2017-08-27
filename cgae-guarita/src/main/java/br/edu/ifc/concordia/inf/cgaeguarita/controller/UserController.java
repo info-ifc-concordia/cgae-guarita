@@ -109,28 +109,34 @@ public class UserController extends AbstractController {
 	public void doRegister(String username, String name, 
 			String email, String userType, String password, 
 			String rePassword) {
-		List<String> values = Arrays.asList(username, name, 
-				email, userType, password, rePassword);
+		
 		List<String> classes = new ArrayList<String>();
 		List<String> inputs = new ArrayList<String>();
-		int i = 0;
-		for(String x : values) {
-			if (x == null) {
-				if (i == 3) {
-					classes.add("red-text");
+		if ((username == null) || (name == null) || (email == null)
+				|| (userType == null) || (password == null)
+				|| (rePassword == null)) {
+			
+			List<String> values = Arrays.asList(username, name, 
+					email, userType, password, rePassword);
+			int i = 0;
+			for(String x : values) {
+				if (x == null) {
+					if (i == 3) {
+						classes.add("red-text");
+					} else {
+						classes.add("invalid");
+					}
 				} else {
-					classes.add("invalid");
+					classes.add("");
 				}
-			} else {
-				classes.add("");
+				i += 1;
+				inputs.add(x);
 			}
-			i += 1;
-			inputs.add(x);
-		}
-		if (classes.contains("invalid")) {
-			this.result.redirectTo(this).register("Os campos devem ser preenchidos!",
+			if (classes.contains("invalid")) {
+				this.result.redirectTo(this).register("Os campos devem ser preenchidos!",
 					classes.get(0), classes.get(1), classes.get(2), classes.get(3),
 					classes.get(4), classes.get(5), inputs);
+			}
 		}
 		
 		if (password.equals(rePassword)) {

@@ -23,6 +23,7 @@ import br.edu.ifc.concordia.inf.cgaeguarita.properties.SystemConfigs;
 @RequestScoped
 public class StudentBS extends HibernateBusiness {
 	
+	//CADASTRA NOVO ALUNO
 	public void registerNewStudent(SessionFactoryProducer factoryProducer,
 			String registration, String name, String course, String grade) {
 		
