@@ -1,7 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<c:import url="/includes/headers.jsp" />
+<c:import url="/includes/header.jsp" />
 	
 	<h3 class="center-align">Usuários</h3>
 	<div class="row">
@@ -10,15 +10,13 @@
 			<form action="" method="GET" class="card=panel z-depth-1">
 				<nav class="ifc-green">
 				    <div class="nav-wrapper">
-				        <form>
-				            <div class="input-field">
-				                <input name="filter" id="searchNavBar" type="search" value="${filter}" required>
-				                <label for="searchNavBar" class="gray-text text-lighten-4">
-				                    Buscar usuário pelo nome
-				                </label>
-				                <i class="material-icons">close</i>
-				            </div>
-				        </form>
+			            <div class="input-field">
+			                <input name="filter" id="searchNavBar" type="search" value="${filter}" required>
+			                <label for="searchNavBar" class="gray-text text-lighten-4">
+			                    Buscar usuário pelo nome
+			                </label>
+			                <i class="material-icons">close</i>
+			            </div>
 				    </div>
 				</nav>
 			</form>

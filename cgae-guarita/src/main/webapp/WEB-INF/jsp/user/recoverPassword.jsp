@@ -1,7 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<c:import url="/includes/headers.jsp" />
+<c:import url="/includes/header.jsp" />
 
 <div class="row">
 	<form method="POST" class="col s6 offset-s3" 

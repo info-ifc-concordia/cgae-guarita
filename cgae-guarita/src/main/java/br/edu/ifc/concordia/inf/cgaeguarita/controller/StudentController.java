@@ -8,7 +8,6 @@ import javax.inject.Inject;
 
 import br.com.caelum.vraptor.Controller;
 import br.com.caelum.vraptor.Get;
-import br.com.caelum.vraptor.Path;
 import br.com.caelum.vraptor.Post;
 import br.com.caelum.vraptor.boilerplate.NoCache;
 import br.com.caelum.vraptor.boilerplate.factory.SessionFactoryProducer;
@@ -16,6 +15,7 @@ import br.com.caelum.vraptor.boilerplate.util.GeneralUtils;
 import br.edu.ifc.concordia.inf.cgaeguarita.abstractions.AbstractController;
 import br.edu.ifc.concordia.inf.cgaeguarita.business.StudentBS;
 import br.edu.ifc.concordia.inf.cgaeguarita.model.Student;
+import br.edu.ifc.concordia.inf.cgaeguarita.model.User;
 import br.edu.ifc.concordia.inf.cgaeguarita.permission.Permission;
 import br.edu.ifc.concordia.inf.cgaeguarita.permission.UserRoles;
 
@@ -24,6 +24,7 @@ public class StudentController extends AbstractController {
 	
 	@Inject private StudentBS sbs;
 
+	//REGISTRO DE ALUNO
 	@Get(value="/students/register")
 	@NoCache
 	@Permission(UserRoles.ADMIN)
@@ -38,8 +39,7 @@ public class StudentController extends AbstractController {
 			this.result.include("inputVal", inputVal);
 		}
 	}
-	
-	
+	//
 	@Post(value="/students/register")
 	@NoCache
 	@Permission(UserRoles.ADMIN)
@@ -50,16 +50,14 @@ public class StudentController extends AbstractController {
 		if ((registration == null) || (name == null) || (course == null)
 				|| (grade == null)) {
 			
-			List<String> values = Arrays.asList(registration, name, 
+			List<String> values = Arrays.asList(String.valueOf(registration), name, 
 					course, grade);
-			int i = 0;
 			for(String x : values) {
 				if (x == null) {
 						classes.add("invalid");
 				} else {
 					classes.add("");
 				}
-				i += 1;
 				inputs.add(x);
 			}
 			if (classes.contains("invalid")) {
@@ -69,16 +67,56 @@ public class StudentController extends AbstractController {
 		}
 		SessionFactoryProducer factoryProducer = new SessionFactoryProducer();
 		this.sbs.registerNewStudent(factoryProducer, registration, name, course, grade);
-		this.result.redirectTo(UserController.class).profileCGAE();
+		this.result.redirectTo(UserController.class).profileCGAE("");
 		
 	}
 	
-	@Get(value="/students/aluno")
+	//PÁGINA DE PERFIL DO ALUNO
+	@Get(value="/students/{registration}/profile")
 	@NoCache
-	public void aluno() {
+	public void studentProfile(String registration) {
+		if (registration == null) {
+			this.result.notFound();
+		} else {
+			Student student = this.sbs.exists(registration, Student.class);
+			if (student == null) {
+				this.result.notFound();
+			}else {
+				this.result.include("student", student);
+			}
+		}
+	}
+	//
+	@Post(value="/students/{registration}/profile")
+	@NoCache
+	public void studentP(String registration) {
 		
 	}
 	
+	//LISTAGEM DE ALUNOS
+	@Get(value="/students/list")
+	@NoCache
+	public void studentList(List<Student> students, String filter) {
+		if (!GeneralUtils.isEmpty(students)) {
+			this.result.include("students", students);
+		}
+		if (!GeneralUtils.isEmpty(filter)) {
+			this.result.include("filter", filter);
+		}
+	}
+	//
+	@Post(value="/students/list")
+	@NoCache
+	public void searchStudent(String registration) {
+		List<Student> students = this.sbs.listStudents(registration);
+		if (students.size() == 1) {
+			this.result.redirectTo(this).studentProfile(students.get(0).getRegistration());
+		}else {
+			this.result.redirectTo(this).studentList(students, registration);
+		}
+	}
+	
+	//COISAS À ARRUMAR
 	@Get(value="/students/historico")
 	@NoCache
 	public void historico() {

@@ -76,7 +76,7 @@ COR QUE TÀ NO SITE DO IFC: #096318
 	 color: #1c1c1c;
 }
 
-/* sticky (fingers) footer */
+/* sticky footer */
 body {
 	display: flex;
 	min-height: 100vh;

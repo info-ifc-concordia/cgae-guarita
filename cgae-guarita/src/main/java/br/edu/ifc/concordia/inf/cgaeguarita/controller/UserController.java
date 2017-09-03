@@ -14,6 +14,7 @@ import br.com.caelum.vraptor.boilerplate.factory.SessionFactoryProducer;
 import br.com.caelum.vraptor.boilerplate.util.CryptManager;
 import br.com.caelum.vraptor.boilerplate.util.GeneralUtils;
 import br.edu.ifc.concordia.inf.cgaeguarita.abstractions.AbstractController;
+import br.edu.ifc.concordia.inf.cgaeguarita.business.StudentBS;
 import br.edu.ifc.concordia.inf.cgaeguarita.business.UserBS;
 import br.edu.ifc.concordia.inf.cgaeguarita.model.User;
 import br.edu.ifc.concordia.inf.cgaeguarita.permission.Permission;
@@ -23,7 +24,9 @@ import br.edu.ifc.concordia.inf.cgaeguarita.permission.UserRoles;
 public class UserController extends AbstractController {
 	
 	@Inject private UserBS bs;
+	@Inject private StudentBS sbs;
 	
+	//LOGIN
 	@Get(value="/login")
 	@NoCache
 	public void login(String errorMsg, String usrNameMsg, String passMsg) {
@@ -64,13 +67,14 @@ public class UserController extends AbstractController {
 			}
 			this.userSession.login(user);
 			if (user.getAccess() >= 7) {
-				this.result.redirectTo(this).profileCGAE();
+				this.result.redirectTo(this).profileCGAE("");
 			} else {
 				this.result.redirectTo(this).profileGuarita();
 			}
 		}
 	}
 	
+	//REGISTRO DE USUÁRIO
 	@Get(value="/users/register")
 	@NoCache
 	@Permission(UserRoles.ADMIN)
@@ -102,7 +106,7 @@ public class UserController extends AbstractController {
 			this.result.include("inputVal", inputVal);
 		}
 	}
-	
+	//
 	@Post(value="/users/register")
 	@NoCache
 	@Permission(UserRoles.ADMIN)
@@ -142,20 +146,21 @@ public class UserController extends AbstractController {
 		if (password.equals(rePassword)) {
 			SessionFactoryProducer factoryProducer = new SessionFactoryProducer();
 			this.bs.registerNewUser(factoryProducer, username, name, email, userType, password);
-			this.result.redirectTo(this).profileCGAE();
+			this.result.redirectTo(this).profileCGAE("");
 		}else {
 			this.result.redirectTo(this).register("As senhas não coincidem.", "", "", "", "", 
 					"invalid", "invalid", inputs);
 		}
 	}
 	
+	//PERFIL CGAE
 	@Get(value="/users/cgae/profile")
 	@NoCache
 	@Permission(UserRoles.ADMIN)
-	public void profileCGAE() {
-		
+	public void profileCGAE(String filter) {
+		this.result.include("filter", filter);
 	}
-	
+	//
 	@Post(value="/users/cgae/profile")
 	@NoCache
 	@Permission(UserRoles.ADMIN)
@@ -163,14 +168,14 @@ public class UserController extends AbstractController {
 		this.userSession.logout();
 		this.result.redirectTo(this).login("", "", "");
 	}
-	
+	//PERFIL GUARITA
 	@Get(value="/users/guarita/profile")
 	@NoCache
 	@Permission(UserRoles.NORMAL)
 	public void profileGuarita() {
 		
 	}
-	
+	//
 	@Post(value="/users/guarita/profile")
 	@NoCache
 	@Permission(UserRoles.NORMAL)
@@ -179,6 +184,7 @@ public class UserController extends AbstractController {
 		this.result.redirectTo(this).login("", "", "");
 	}
 	
+	//CONTROLE DE USUARIOS
 	@Get(value="/users/control")
 	@NoCache
 	@Permission(UserRoles.ADMIN)
@@ -187,7 +193,7 @@ public class UserController extends AbstractController {
 		this.result.include("users", users);
 		this.result.include("filter", filter);
 	}
-	
+	//
 	@Post(value="/users/control")
 	@NoCache
 	@Permission(UserRoles.ADMIN)
@@ -199,6 +205,7 @@ public class UserController extends AbstractController {
 		this.result.redirectTo(this).userList("");
 	}
 	
+	//ALTERAR DADOS
 	@Get(value="/users/change-data")
 	@NoCache
 	@Permission(UserRoles.NORMAL)
@@ -228,7 +235,7 @@ public class UserController extends AbstractController {
 		}
 		this.result.include("user", this.userSession.getUser());
 	}
-	
+	//
 	@Post(value="/users/change-data")
 	@NoCache
 	@Permission(UserRoles.NORMAL)
@@ -270,6 +277,7 @@ public class UserController extends AbstractController {
 		}
 	}
 	
+	//EDITAR USUARIO
 	@Get(value="/users/{id}/edit")
 	@NoCache
 	@Permission(UserRoles.SYS_ADMIN)
@@ -308,7 +316,7 @@ public class UserController extends AbstractController {
 			}
 		}
 	}
-	
+	//
 	@Post(value="/users/{id}/edit")
 	@NoCache
 	@Permission(UserRoles.SYS_ADMIN)
@@ -350,6 +358,7 @@ public class UserController extends AbstractController {
 		}
 	}
 	
+	//RECUPERAR SENHA
 	@Get(value="/users/recover-password")
 	@NoCache
 	public void recoverPassword(String errorMsg, String usrNameMsg, String emailMsg) {
