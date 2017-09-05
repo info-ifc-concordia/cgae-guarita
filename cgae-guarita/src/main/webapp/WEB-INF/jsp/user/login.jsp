@@ -21,7 +21,7 @@
         </div>
         <!--  -->
         <p><a href="<c:url value="/users/recover-password" />">
-       		Recuperar senha
+       		Esqueci minha senha
        	</a></p>
         <div class="input-field center-align">
             <button type="submit" class="btn ifc-green waves-effect waves-light">

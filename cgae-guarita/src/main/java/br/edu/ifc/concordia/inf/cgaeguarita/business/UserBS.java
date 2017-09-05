@@ -4,6 +4,7 @@ import java.security.GeneralSecurityException;
 import java.security.SecureRandom;
 import java.util.List;
 import java.util.Properties;
+import java.util.Random;
 
 import javax.enterprise.context.RequestScoped;
 import javax.mail.Message;
@@ -11,14 +12,10 @@ import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
-import javax.mail.internet.MimeMessage.RecipientType;
 import javax.net.ssl.KeyManager;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
 
-import org.apache.commons.mail.Email;
-import org.apache.commons.mail.EmailException;
-import org.apache.commons.mail.SimpleEmail;
 import org.hibernate.Criteria;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Restrictions;
@@ -154,8 +151,44 @@ public class UserBS extends HibernateBusiness {
 		return (User) criteria.uniqueResult();
 	}
 	
+	//GERA UMA STRING (SENHA) ALEATÓRIA
+	public String getRandomPassword(int length) {
+		final String alphanum = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz";
+		String randomPassword = "";
+		Random random = new Random();
+		while (randomPassword.length() < length) {
+			int index = (int) (random.nextFloat() * alphanum.length());
+			randomPassword += alphanum.charAt(index);
+		}
+		return randomPassword;
+	}
+	
+	//MUDA A SENHA DE USUÁRIO
+	private void changePassword(SessionFactoryProducer factoryProducer, 
+			User user, String newPassword) {
+		factoryProducer.initialize("hibernate.cfg.xml");	
+		
+		CryptManager.updateKey(SystemConfigs.getConfig("crypt.key"));
+		CryptManager.updateSalt("@2o!A", "70Px$");
+
+		SessionManager mngr = new SessionManager(factoryProducer.getInstance());
+		HibernateDAO dao = new HibernateDAO(mngr);
+		
+		user.setPassword(newPassword);
+		
+		dao.update(user);
+		
+		this.validate(mngr);
+	}
+	
 	//RECUPERA SENHA
 	public void recoverPassword(String username, String email) {
+		CryptManager.updateKey(SystemConfigs.getConfig("crypt.key"));
+		CryptManager.updateSalt("@2o!A", "70Px$");
+		Criteria criteria = this.dao.newCriteria(User.class);
+		criteria.add(Restrictions.eq("username", username));
+		User user = (User) criteria.uniqueResult();
+		 
 		Properties props = System.getProperties();
 		props.put("mail.smtp.starttls.enable", "true");
 		props.put("mail.smtp.host", "smtp.gmail.com");
@@ -173,14 +206,20 @@ public class UserBS extends HibernateBusiness {
 			
 			InternetAddress addressTo = new InternetAddress(email);
 			msg.addRecipient(Message.RecipientType.TO, addressTo);
-
+			
+			String newPassword = this.getRandomPassword(7);
 			msg.setSubject("Recuperação de Senha");
-			msg.setText("Tua senha é: merda1234");
+			msg.setText("Você requisitou uma nova senha para o usuário "
+					+ "\"" + username + "\". Sua nova senha será: " + newPassword);
 
+			user.setPassword(CryptManager.passwordHash(newPassword));
+			this.dao.update(user);
+			
 			Transport t = session.getTransport("smtp");   
 			t.connect("smtp.gmail.com", "cgaeguarita@gmail.com", "hodiernamente");
 			t.sendMessage(msg, msg.getAllRecipients());
 			t.close();
+			
 		} catch(Exception exc) {
 		  exc.printStackTrace();
 		}

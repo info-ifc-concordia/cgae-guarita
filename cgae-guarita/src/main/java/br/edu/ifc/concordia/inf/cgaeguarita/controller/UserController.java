@@ -168,6 +168,7 @@ public class UserController extends AbstractController {
 		this.userSession.logout();
 		this.result.redirectTo(this).login("", "", "");
 	}
+	
 	//PERFIL GUARITA
 	@Get(value="/users/guarita/profile")
 	@NoCache
@@ -361,12 +362,15 @@ public class UserController extends AbstractController {
 	//RECUPERAR SENHA
 	@Get(value="/users/recover-password")
 	@NoCache
-	public void recoverPassword(String errorMsg, String usrNameMsg, String emailMsg) {
+	public void recoverPassword(String errorMsg, String usrNameMsg, String passMsg, String emailMsg) {
 		if (!GeneralUtils.isEmpty(errorMsg)) {
 			this.result.include("errorMsg", errorMsg);
 		}
 		if (!GeneralUtils.isEmpty(usrNameMsg)) {
 			this.result.include("usrNameMsg", usrNameMsg);
+		}
+		if (!GeneralUtils.isEmpty(passMsg)) {
+			this.result.include("passMsg", passMsg);
 		}
 		if (!GeneralUtils.isEmpty(emailMsg)) {
 			this.result.include("emailMsg", emailMsg);
@@ -375,8 +379,8 @@ public class UserController extends AbstractController {
 	
 	@Post(value="/users/recover-password")
 	@NoCache
-	public void recoverUserPass(String username, String email) {
-		List<String> values = Arrays.asList(username, email);
+	public void recoverUserPass(String username, String password, String email) {
+		List<String> values = Arrays.asList(username, password, email);
 		List<String> classes = new ArrayList<String>();
 		for(String x : values) {
 			if (x == null) {
@@ -387,18 +391,22 @@ public class UserController extends AbstractController {
 		}
 		if (classes.contains("invalid")) {
 			this.result.redirectTo(this).recoverPassword("Os campos devem ser preenchidos!",
-					classes.get(0), classes.get(1));
+					classes.get(0), classes.get(1), classes.get(2));
 		} else {
 			User user = this.bs.checkUsername(username);
 			if (user == null) {
 				this.result.redirectTo(this).recoverPassword("Nome de usuário incorreto!",
-						"invalid", "");
+						"invalid", "", "");
 			} else {
-				this.bs.recoverPassword(username, email);
-				this.result.redirectTo(this).login("", "", "");
+				User user2 = this.bs.login(username, password);
+				if (user2 == null) {
+					this.result.redirectTo(this).recoverPassword("Usuário ou senha incorretos!",
+							"invalid", "invalid", "");
+				}else {
+					this.bs.recoverPassword(username, email);
+					this.result.redirectTo(this).login("", "", "");
+				}
 			}
 		}
-		
 	}
-	
 }
