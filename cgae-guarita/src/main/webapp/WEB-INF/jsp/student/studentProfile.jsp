@@ -33,18 +33,19 @@
 		<h5 class="center-align">${student.name}</h5>
 		<h6 class="center-align">${student.course} - ${student.grade}</h6>
 			
-		<p class="col s4">Última Observação</p>
-		<div class="input-field col s5 right-align">
+		<p class="col m4">Última Observação</p>
+		<div class="input-field col m5 right-align">
 		    <a class="ifc-green waves-effect waves-light btn" href="#modal2">
 		        Nova Observação
 		        <i class="material-icons right">library_add</i>
 		    </a>
 		</div>
-		<div class="input-field col s3 right-align">
-		    <button type="submit" class="ifc-green waves-effect waves-light btn">
+		<div class="input-field col m3 right-align">
+		    <a class="ifc-green waves-effect waves-light btn" 
+		    		href="<c:url value="/alunos/${student.registration}/autorizacoes" />">
 		        Visão Geral
 		        <i class="material-icons right">visibility</i>
-		    </button>
+		    </a>
 		</div>
 		
 		<div class="card-panel grey lighten-3 z-depth-1">

@@ -3,9 +3,11 @@
 
 <c:import url="/includes/header.jsp" />
 
+<c:import url="/includes/searchNavBar.jsp" />
+
 <h3 class="center-align">Cadastro de Novo Aluno</h3>
 <div class="row">	
-    <form class="col s6 offset-s3" method="POST"
+    <form class="col s12 m6 offset-m3" method="POST"
     		action="<c:url value="/students/register" />">
     	<h6 class="red-text">${errorMsg}</h6>
 
@@ -18,17 +20,14 @@
             <input name="name" id="name" type="text" class="${inputCls.get(1)}" value="${inputVal.get(1)}">
             <label for="name">Nome Completo</label>
         </div>
-
-        <div class="input-field center-align">
-            <a class="card-panel waves-effect waves-light ">
-            	<label>
-                	<img src="<c:import url="/img/avatar.png"/>" class="circle responsive-img">
-                </label>
-                
-                <input type="file" id="fileInput"/>
-            </a>
-            <p class="center-align">Clique na imagem para alterar</p>
-        </div>
+       
+		<div class="image-upload center-align">
+			<input id="fileInput" type="file" class="hide" onchange="changeImg(this)"/>
+			<label for="fileInput" class="waves-effect waves-light">
+			<img src="<c:url value="/img/avatar.png" /> " id="imgFileInput" class="circle responsive-img"/>
+			</label>
+		</div>
+		<p class="center-align" id="imgTip">Clique na imagem para alterar</p>
 
         <div class="input-field">
             <input name="course" id="course" type="text" class="${inputCls.get(2)}" value="${inputVal.get(2)}">

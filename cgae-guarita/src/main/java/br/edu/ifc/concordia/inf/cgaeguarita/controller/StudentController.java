@@ -109,23 +109,25 @@ public class StudentController extends AbstractController {
 	@NoCache
 	public void searchStudent(String registration) {
 		List<Student> students = this.sbs.listStudents(registration);
-		if (students.size() == 1) {
+		if (students.size() == 0) {
+			this.result.notFound();
+		}else if (students.size() == 1) {
 			this.result.redirectTo(this).studentProfile(students.get(0).getRegistration());
 		}else {
 			this.result.redirectTo(this).studentList(students, registration);
 		}
 	}
 	
-	//COISAS À ARRUMAR
+	//PEDIR PRO RENATO SE NÃO SERIA EM OUTRO CONTROLLER E EM OUTRO ARQUIVO BS!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 	@Get(value="/students/historico")
 	@NoCache
 	public void historico() {
 		
 	}
 	
-	@Get(value="/students/observacoes")
+	@Get(value="/alunos/{registration}/autorizacoes")
 	@NoCache
-	public void observacoes() {
+	public void authorizations(String registration) {
 		
 	}
 	

@@ -3,6 +3,7 @@
 
 <c:import url="/includes/header.jsp" />
 
+	<c:import url="/includes/searchNavBar.jsp" />
 	
 	<script type="text/javascript">
 		$(document).ready(function(){
@@ -12,7 +13,7 @@
 	
 	<h3 class="center-align">Editar usuário</h3>
 	<div class="row">
-		<div class="col s6 offset-s3">
+		<div class="col s12 m6 offset-m3">
 		
 			<div id="sureDelete" class="modal">
 				<div class="modal-content">
@@ -78,11 +79,26 @@
 		                Descartar Alterações
 		            </a>
 		        </div>
-		        <div class="input-field center-align col s4">
-		            <a href="#sureDelete" class="btn ifc-red waves-effect waves-light">
-		                Excluir Usuário
-		            </a>
-		        </div><br><br>
+		        
+		        <c:set var="usrType" scope="session" value="ADMIN"/>
+		        <c:choose>
+		        	<c:when test="${user.userType == usrType}">
+		        		<div class="input-field center-align col s4">
+		            		<a href="#sureDelete" class="btn ifc-red waves-effect waves-light disabled">
+		                		Excluir Usuário
+		            		</a>
+			        	</div><br><br>
+		        	</c:when>
+		        	<c:otherwise>
+		        		<div class="input-field center-align col s4">
+		            		<a href="#sureDelete" class="btn ifc-red waves-effect waves-light">
+		                		Excluir Usuário
+		            		</a>
+			        	</div><br><br>
+		        	</c:otherwise>
+		        </c:choose>
+		        
+		        
 			</form>
 		</div>
 	</div>

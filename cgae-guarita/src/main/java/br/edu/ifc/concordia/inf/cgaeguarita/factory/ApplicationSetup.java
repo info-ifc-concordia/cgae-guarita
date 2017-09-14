@@ -60,6 +60,7 @@ public class ApplicationSetup {
 			user.setName("Administrador Padrão");
 			user.setEmail("admin@admin");
 			user.setUsername("admin");
+			user.setUserType("ADMIN");
 			user.setPassword(CryptManager.passwordHash("adm12345"));
 			user.setAccess(UserRoles.SYS_ADMIN.getAccessLevel());
 			

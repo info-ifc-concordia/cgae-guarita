@@ -1,17 +1,22 @@
 /*
 COR DA LOGO DO IFC:#389c3a
-COR QUE TÃ€ NO SITE DO IFC: #096318
+COR QUE TÁ NO SITE DO IFC: #096318
 */
-/*
-#searchNavBar > label {
+/* FILE INPUPT */
+#fileInput {
+    display: none!important;
+}
+
+/* SEARCH NAV BAR */
+#searchNavBar + label {
 	display: block;
 	color: #fff;
 }
 
-#searchNavBar:focus > label {
+#searchNavBar:focus + label {
 	display: none;
 }
-*/
+
 /* IFC GREEN */
 .ifc-green {
     background-color: #389c3a;

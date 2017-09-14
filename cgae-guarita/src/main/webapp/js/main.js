@@ -1,6 +1,12 @@
 $(document).ready(function(){
+//	INICIALIZAÇÕES NECESSÁRIAS DO MATERIALIZE
     $(".modal").modal();
     $("select").material_select();
-    $("#textarea1").val("Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.");
-    $("#textarea1").trigger("");
+//    $("#textarea1").trigger("");
+    $(".dropdown-button").dropdown();
+});
+
+$("#fileInput").change( function(event) {
+	var tmppath = URL.createObjectURL(event.target.files[0]);
+    $("#imgFileInput").fadeIn("fast").attr("src", tmppath);
 });

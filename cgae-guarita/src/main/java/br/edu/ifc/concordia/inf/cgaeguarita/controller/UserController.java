@@ -24,7 +24,6 @@ import br.edu.ifc.concordia.inf.cgaeguarita.permission.UserRoles;
 public class UserController extends AbstractController {
 	
 	@Inject private UserBS bs;
-	@Inject private StudentBS sbs;
 	
 	//LOGIN
 	@Get(value="/login")
@@ -39,6 +38,7 @@ public class UserController extends AbstractController {
 		if (!GeneralUtils.isEmpty(passMsg)) {
 			this.result.include("passMsg", passMsg);
 		}
+		this.userSession.logout();
 	}
 	
 	@Post(value="/login")
@@ -69,7 +69,7 @@ public class UserController extends AbstractController {
 			if (user.getAccess() >= 7) {
 				this.result.redirectTo(this).profileCGAE("");
 			} else {
-				this.result.redirectTo(this).profileGuarita();
+				this.result.redirectTo(this).profileGuarita("");
 			}
 		}
 	}
@@ -105,6 +105,8 @@ public class UserController extends AbstractController {
 		if (!GeneralUtils.isEmpty(inputVal)) {
 			this.result.include("inputVal", inputVal);
 		}
+		this.result.include("usrProfURL", "/users/" + 
+				this.userSession.getUser().getUserType() + "/profile");
 	}
 	//
 	@Post(value="/users/register")
@@ -158,7 +160,10 @@ public class UserController extends AbstractController {
 	@NoCache
 	@Permission(UserRoles.ADMIN)
 	public void profileCGAE(String filter) {
-		this.result.include("filter", filter);
+		if (!GeneralUtils.isEmpty(filter)) {
+			this.result.include("filter", filter);
+		}
+		this.result.include("usrProfURL", "/users/cgae/profile");
 	}
 	//
 	@Post(value="/users/cgae/profile")
@@ -173,8 +178,11 @@ public class UserController extends AbstractController {
 	@Get(value="/users/guarita/profile")
 	@NoCache
 	@Permission(UserRoles.NORMAL)
-	public void profileGuarita() {
-		
+	public void profileGuarita(String filter) {
+		if (!GeneralUtils.isEmpty(filter)) {
+			this.result.include("filter", filter);
+		}
+		this.result.include("usrProfURL", "/users/guarita/profile");
 	}
 	//
 	@Post(value="/users/guarita/profile")
@@ -184,7 +192,7 @@ public class UserController extends AbstractController {
 		this.userSession.logout();
 		this.result.redirectTo(this).login("", "", "");
 	}
-	
+
 	//CONTROLE DE USUARIOS
 	@Get(value="/users/control")
 	@NoCache
@@ -193,6 +201,8 @@ public class UserController extends AbstractController {
 		List<User> users = this.bs.listAllUsers(filter);
 		this.result.include("users", users);
 		this.result.include("filter", filter);
+		this.result.include("usrProfURL", "/users/" + 
+				this.userSession.getUser().getUserType() + "/profile");
 	}
 	//
 	@Post(value="/users/control")
@@ -235,6 +245,8 @@ public class UserController extends AbstractController {
 			this.result.include("inputVal", inputVal);
 		}
 		this.result.include("user", this.userSession.getUser());
+		this.result.include("usrProfURL", "/users/" + 
+				this.userSession.getUser().getUserType() + "/profile");
 	}
 	//
 	@Post(value="/users/change-data")
@@ -316,6 +328,8 @@ public class UserController extends AbstractController {
 				this.result.include("user", user);
 			}
 		}
+		this.result.include("usrProfURL", "/users/" + 
+				this.userSession.getUser().getUserType() + "/profile");
 	}
 	//
 	@Post(value="/users/{id}/edit")

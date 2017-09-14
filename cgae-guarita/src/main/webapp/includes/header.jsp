@@ -15,7 +15,7 @@
 
 	<header class="card-panel grey lighten-3 z-depth-1">
 	
-		<img src="<c:url value="/img/logo-ifc.png" />">
+		<img src="<c:url value="/img/logo-ifc.png" /> " class="responsive-img">
 	</header>
 	<main>
 	
