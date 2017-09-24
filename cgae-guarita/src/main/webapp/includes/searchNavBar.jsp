@@ -17,9 +17,9 @@
 <!-- <br> -->
 
 <!-- DROPDOWN -->
-<ul id="dropdown1" class="dropdown-content">
-  	<li><a href="<c:url value="/login" />"><i class="material-icons left">arrow_back</i>Sair</a></li>
-	<li><a href="<c:url value="${usrProfURL}" />"><i class="material-icons left">home</i>Home</a></li>
+<ul id="dropdown1" class="dropdown-content row">
+  	<li><a href="<c:url value="/login" />">Sair</a></li>
+	<li><a href="<c:url value="${usrProfURL}" />">Home</a></li>
   	<li class="divider"></li>
 </ul>
 

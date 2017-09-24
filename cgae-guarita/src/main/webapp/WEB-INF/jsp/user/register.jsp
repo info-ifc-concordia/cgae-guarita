@@ -5,7 +5,7 @@
 	
 <h3 class="center-align">Cadastro de Novo Usuário</h3>
 <div class="row">		
-    <form class="col s6 offset-s3" method="POST"
+    <form class="col m6 s12 offset-m3" method="POST"
     		action="<c:url value="/users/register" />">
     	<h6 class="red-text">${errorMsg}</h6>
 		

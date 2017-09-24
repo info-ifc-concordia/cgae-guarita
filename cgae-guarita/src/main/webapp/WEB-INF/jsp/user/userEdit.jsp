@@ -80,23 +80,23 @@
 		            </a>
 		        </div>
 		        
-		        <c:set var="usrType" scope="session" value="ADMIN"/>
-		        <c:choose>
-		        	<c:when test="${user.userType == usrType}">
-		        		<div class="input-field center-align col s4">
-		            		<a href="#sureDelete" class="btn ifc-red waves-effect waves-light disabled">
-		                		Excluir Usuário
-		            		</a>
-			        	</div><br><br>
-		        	</c:when>
-		        	<c:otherwise>
-		        		<div class="input-field center-align col s4">
-		            		<a href="#sureDelete" class="btn ifc-red waves-effect waves-light">
-		                		Excluir Usuário
-		            		</a>
-			        	</div><br><br>
-		        	</c:otherwise>
-		        </c:choose>
+				<c:set var="usrType" scope="session" value="ADMIN"/>
+				<c:choose>
+					<c:when test="${user.userType.equals(usrType)}">
+						<div class="input-field center-align col s4">
+				    		<a href="#sureDelete" class="btn ifc-red waves-effect waves-light disabled">
+				        		Excluir Usuário
+				    		</a>
+				 	</div><br><br>
+					</c:when>
+					<c:otherwise>
+						<div class="input-field center-align col s4">
+				    		<a href="#sureDelete" class="btn ifc-red waves-effect waves-light">
+				        		Excluir Usuário
+				    		</a>
+				 	</div><br><br>
+					</c:otherwise>
+				</c:choose>
 		        
 		        
 			</form>

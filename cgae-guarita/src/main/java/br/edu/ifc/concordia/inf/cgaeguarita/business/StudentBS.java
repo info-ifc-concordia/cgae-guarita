@@ -19,17 +19,21 @@ import br.com.caelum.vraptor.boilerplate.factory.SessionFactoryProducer;
 import br.com.caelum.vraptor.boilerplate.factory.SessionManager;
 import br.com.caelum.vraptor.boilerplate.util.CryptManager;
 import br.com.caelum.vraptor.boilerplate.util.GeneralUtils;
+import br.com.caelum.vraptor.observer.upload.UploadedFile;
+import br.edu.ifc.concordia.inf.cgaeguarita.ImagesUpload;
 import br.edu.ifc.concordia.inf.cgaeguarita.factory.ApplicationSetup.DefaultTrustManager;
 import br.edu.ifc.concordia.inf.cgaeguarita.model.Student;
-import br.edu.ifc.concordia.inf.cgaeguarita.model.User;
 import br.edu.ifc.concordia.inf.cgaeguarita.properties.SystemConfigs;
 
 @RequestScoped
 public class StudentBS extends HibernateBusiness {
 	
+	private ImagesUpload imgUpload;
+	
 	//CADASTRA NOVO ALUNO
 	public void registerNewStudent(SessionFactoryProducer factoryProducer,
-			String registration, String name, String course, String grade) {
+			String registration, String name, UploadedFile studentImg,
+			String course, String grade) {
 		
 		factoryProducer.initialize("hibernate.cfg.xml");	
 		
@@ -51,6 +55,8 @@ public class StudentBS extends HibernateBusiness {
 			student.setGrade(grade);
 			
 			dao.persist(student);
+			
+			imgUpload.saveImage(studentImg, registration);
 			
 			try {
 				SSLContext ctx = SSLContext.getInstance("TLS");

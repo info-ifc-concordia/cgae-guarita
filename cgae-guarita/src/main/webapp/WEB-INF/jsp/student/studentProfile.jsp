@@ -27,7 +27,8 @@
 	<div class="col m8 s12 offset-m2">
 		
 		<div class="center">
-		    <img src="http://www.motsandco.com/wp-content/uploads/avatar-1-300x300.png" class="responsive-img"> <!-- MUDAR -->
+		    <img src="<c:url value="students/${student.registration}/profile"/>" 
+		    		class="responsive-img">
 		</div>
 		
 		<h5 class="center-align">${student.name}</h5>

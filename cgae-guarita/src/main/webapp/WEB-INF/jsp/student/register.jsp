@@ -8,7 +8,7 @@
 <h3 class="center-align">Cadastro de Novo Aluno</h3>
 <div class="row">	
     <form class="col s12 m6 offset-m3" method="POST"
-    		action="<c:url value="/students/register" />">
+    		action="<c:url value="/students/register" />" enctype="multipart/form-data">
     	<h6 class="red-text">${errorMsg}</h6>
 
         <div class="input-field">
@@ -22,9 +22,9 @@
         </div>
        
 		<div class="image-upload center-align">
-			<input id="fileInput" type="file" class="hide" onchange="changeImg(this)"/>
+			<input name="studentImg" id="fileInput" type="file" class="hide"/>
 			<label for="fileInput" class="waves-effect waves-light">
-			<img src="<c:url value="/img/avatar.png" /> " id="imgFileInput" class="circle responsive-img"/>
+			<img src="<c:url value="/img/avatar.png" /> " id="imgFileInput" class="responsive-img"/>
 			</label>
 		</div>
 		<p class="center-align" id="imgTip">Clique na imagem para alterar</p>

@@ -1,5 +1,6 @@
 package br.edu.ifc.concordia.inf.cgaeguarita.controller;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -12,10 +13,11 @@ import br.com.caelum.vraptor.Post;
 import br.com.caelum.vraptor.boilerplate.NoCache;
 import br.com.caelum.vraptor.boilerplate.factory.SessionFactoryProducer;
 import br.com.caelum.vraptor.boilerplate.util.GeneralUtils;
+import br.com.caelum.vraptor.observer.upload.UploadedFile;
+import br.edu.ifc.concordia.inf.cgaeguarita.ImagesUpload;
 import br.edu.ifc.concordia.inf.cgaeguarita.abstractions.AbstractController;
 import br.edu.ifc.concordia.inf.cgaeguarita.business.StudentBS;
 import br.edu.ifc.concordia.inf.cgaeguarita.model.Student;
-import br.edu.ifc.concordia.inf.cgaeguarita.model.User;
 import br.edu.ifc.concordia.inf.cgaeguarita.permission.Permission;
 import br.edu.ifc.concordia.inf.cgaeguarita.permission.UserRoles;
 
@@ -23,6 +25,7 @@ import br.edu.ifc.concordia.inf.cgaeguarita.permission.UserRoles;
 public class StudentController extends AbstractController {
 	
 	@Inject private StudentBS sbs;
+	private ImagesUpload imgUpload;
 
 	//REGISTRO DE ALUNO
 	@Get(value="/students/register")
@@ -44,17 +47,17 @@ public class StudentController extends AbstractController {
 	@NoCache
 	@Permission(UserRoles.ADMIN)
 	public void doRegister(String registration, String name, 
-			String course, String grade) {
+			UploadedFile studentImg, String course, String grade) {
 		List<String> classes = new ArrayList<String>();
 		List<String> inputs = new ArrayList<String>();
 		if ((registration == null) || (name == null) || (course == null)
 				|| (grade == null)) {
 			
-			List<String> values = Arrays.asList(String.valueOf(registration), name, 
+			List<String> values = Arrays.asList(registration, name, 
 					course, grade);
 			for(String x : values) {
 				if (x == null) {
-						classes.add("invalid");
+					classes.add("invalid");
 				} else {
 					classes.add("");
 				}
@@ -66,8 +69,9 @@ public class StudentController extends AbstractController {
 			}
 		}
 		SessionFactoryProducer factoryProducer = new SessionFactoryProducer();
-		this.sbs.registerNewStudent(factoryProducer, registration, name, course, grade);
-		this.result.redirectTo(UserController.class).profileCGAE("");
+		this.sbs.registerNewStudent(factoryProducer, registration, name,
+				studentImg, course, grade);
+		this.result.redirectTo(UserController.class).login("good", "", "");
 		
 	}
 	
@@ -83,6 +87,7 @@ public class StudentController extends AbstractController {
 				this.result.notFound();
 			}else {
 				this.result.include("student", student);
+				imgUpload.showImage(registration);
 			}
 		}
 	}
