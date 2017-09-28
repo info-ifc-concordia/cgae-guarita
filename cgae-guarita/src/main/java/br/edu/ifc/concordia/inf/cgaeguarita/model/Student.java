@@ -19,6 +19,8 @@ public class Student implements Serializable{
 	private String name;
 	private String course;
 	private String grade;
+	private String image;
+	private String imageType;
 	
 	public String getRegistration() {
 		return registration;
@@ -43,5 +45,17 @@ public class Student implements Serializable{
 	}	
 	public void setGrade(String grade) {
 		this.grade = grade;
+	}
+	public String getImage() {
+		return image;
+	}
+	public void setImage(String image) {
+		this.image = image;
+	}
+	public String getImageType() {
+		return imageType;
+	}
+	public void setImageType(String imageType) {
+		this.imageType = imageType;
 	}	
 }

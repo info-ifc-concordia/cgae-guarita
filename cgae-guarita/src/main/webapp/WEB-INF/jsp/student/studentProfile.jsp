@@ -27,7 +27,7 @@
 	<div class="col m8 s12 offset-m2">
 		
 		<div class="center">
-		    <img src="<c:url value="students/${student.registration}/profile"/>" 
+		    <img src="<c:url value="/students/${student.registration}/image"/>" 
 		    		class="responsive-img">
 		</div>
 		

@@ -1,20 +1,22 @@
 package br.edu.ifc.concordia.inf.cgaeguarita.controller;
 
-import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.io.IOUtils;
 
 import br.com.caelum.vraptor.Controller;
 import br.com.caelum.vraptor.Get;
 import br.com.caelum.vraptor.Post;
 import br.com.caelum.vraptor.boilerplate.NoCache;
-import br.com.caelum.vraptor.boilerplate.factory.SessionFactoryProducer;
 import br.com.caelum.vraptor.boilerplate.util.GeneralUtils;
 import br.com.caelum.vraptor.observer.upload.UploadedFile;
-import br.edu.ifc.concordia.inf.cgaeguarita.ImagesUpload;
 import br.edu.ifc.concordia.inf.cgaeguarita.abstractions.AbstractController;
 import br.edu.ifc.concordia.inf.cgaeguarita.business.StudentBS;
 import br.edu.ifc.concordia.inf.cgaeguarita.model.Student;
@@ -25,7 +27,7 @@ import br.edu.ifc.concordia.inf.cgaeguarita.permission.UserRoles;
 public class StudentController extends AbstractController {
 	
 	@Inject private StudentBS sbs;
-	private ImagesUpload imgUpload;
+	@Inject private HttpServletResponse response;
 
 	//REGISTRO DE ALUNO
 	@Get(value="/students/register")
@@ -68,14 +70,12 @@ public class StudentController extends AbstractController {
 					classes, inputs);
 			}
 		}
-		SessionFactoryProducer factoryProducer = new SessionFactoryProducer();
-		this.sbs.registerNewStudent(factoryProducer, registration, name,
+		this.sbs.registerNewStudent(registration, name,
 				studentImg, course, grade);
-		this.result.redirectTo(UserController.class).login("good", "", "");
+		this.result.redirectTo(UserController.class).profileCGAE(null);;
 		
 	}
 	
-	//PÁGINA DE PERFIL DO ALUNO
 	@Get(value="/students/{registration}/profile")
 	@NoCache
 	public void studentProfile(String registration) {
@@ -87,15 +87,31 @@ public class StudentController extends AbstractController {
 				this.result.notFound();
 			}else {
 				this.result.include("student", student);
-				imgUpload.showImage(registration);
 			}
 		}
 	}
-	//
-	@Post(value="/students/{registration}/profile")
+	
+	@Get(value="/students/{registration}/image")
 	@NoCache
-	public void studentP(String registration) {
-		
+	public void getStudentImage(String registration) {
+		if (registration == null) {
+			this.result.notFound();
+		} else {
+			Student student = this.sbs.exists(registration, Student.class);
+			if (student == null) {
+				this.result.notFound();
+			}else {
+				try {
+					InputStream read = new FileInputStream(student.getImage());
+					this.response.setContentType(student.getImageType());
+					IOUtils.copy(read, this.response.getOutputStream());
+					this.result.nothing();
+				} catch (Throwable ex) {
+					LOGGER.error(ex);
+					this.result.notFound();
+				}
+			}
+		}
 	}
 	
 	//LISTAGEM DE ALUNOS

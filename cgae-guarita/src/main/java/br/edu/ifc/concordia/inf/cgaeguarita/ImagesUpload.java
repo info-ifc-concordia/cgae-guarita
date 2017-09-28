@@ -3,38 +3,41 @@ package br.edu.ifc.concordia.inf.cgaeguarita;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.event.Observes;
 import javax.servlet.ServletContext;
 
 import org.apache.commons.io.IOUtils;
 
-import br.com.caelum.vraptor.observer.upload.UploadSizeLimit;
 import br.com.caelum.vraptor.observer.upload.UploadedFile;
+import br.edu.ifc.concordia.inf.cgaeguarita.model.Student;
 
 
+@ApplicationScoped
 public class ImagesUpload {
 
-	private File imagesFile;
+	private String IMG_PATH;
 	
-	public ImagesUpload(ServletContext context) {
-		String imagesPath = context.getRealPath("/WEB-INF/images");
-		imagesFile = new File(imagesPath);
-		imagesFile.mkdir();
+	public void IMG_PATH(@Observes ServletContext ctx) {
+		IMG_PATH = ctx.getRealPath("/WEB-INF/images");
+		File imagesDir = new File(IMG_PATH);
+		if (!imagesDir.exists())
+			imagesDir.mkdir();
 	}
 	
-	@UploadSizeLimit(sizeLimit=40 * 1024 * 1024, fileSizeLimit=10 * 1024 * 1024)
-	public void saveImage(UploadedFile image,
-			String studentRegistration) {
-		File fileTo = new File(imagesFile, image.getFileName());
+	public void saveImage(UploadedFile image, Student student) {
+		File fileTo = new File(IMG_PATH, student.getRegistration()+"-"+image.getFileName());
 		try {
-		      IOUtils.copy(image.getFile(), new FileOutputStream(fileTo));
-		    } catch (IOException e) {
-		    	throw new RuntimeException("Erro ao copiar imagem", e);
-		    }
-	}
-	
-	public File showImage(String studentRegistration) {
-		return new File(imagesFile, studentRegistration + ".jpg");
+			OutputStream out = new FileOutputStream(fileTo);
+			IOUtils.copy(image.getFile(), out);
+			out.close();
+	    } catch (IOException e) {
+	    	throw new RuntimeException("Erro ao copiar imagem", e);
+	    }
+		student.setImage(fileTo.getAbsolutePath());
+		student.setImageType(image.getContentType());
 	}
 	
 }
