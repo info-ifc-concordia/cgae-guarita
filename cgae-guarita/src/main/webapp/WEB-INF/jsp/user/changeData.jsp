@@ -3,9 +3,11 @@
 
 <c:import url="/includes/header.jsp" />
 	
+	<c:import url="/includes/searchNavBar.jsp" />
+	
 	<h3 class="center-align">Editar usuário</h3>
 	<div class="row">
-		<div class="col s6 offset-s3">
+		<div class="col m6 s12 offset-m3">
 		
 			<form method="POST" class="card-panel" 
 					action="<c:url value="/users/change-data" />">

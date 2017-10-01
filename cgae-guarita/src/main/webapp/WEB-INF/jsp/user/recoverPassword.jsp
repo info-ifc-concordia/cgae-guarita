@@ -13,11 +13,6 @@
 		    <input name="username" id="username" type="text" class="${usrNameMsg}">
 		    <label for="username">Nome de Usuário</label>
 		</div>
-		<!-- PASSWORD -->
-		<div class="input-field">
-            <input type="password" name="password" id="password" class="${passMsg}" />
-            <label for="password">Senha</label><br>
-        </div>
 		<!-- EMAIL -->
 		<div class="input-field">
 		   	<input name="email" id="email" type="email" class="${emailMsg}">

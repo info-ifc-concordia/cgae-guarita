@@ -52,34 +52,11 @@ public class UserBS extends HibernateBusiness {
 		return this.dao.findByCriteria(criteria, User.class);
 	}
 	
-	//VALIDA
-	private void validate(SessionManager mngr) {
-		try {
-			SSLContext ctx = SSLContext.getInstance("TLS");
-			ctx.init(new KeyManager[0], new TrustManager[] { new DefaultTrustManager() }, new SecureRandom());
-			SSLContext.setDefault(ctx);
-		} catch (GeneralSecurityException ex) {
-			System.out.println("Não consegui sobrescrever o SSLContext.");
-			ex.printStackTrace();
-		}
-		
-		mngr.closeSession();
-	}
-	
 	//REGISTRA NOVO USUÁRIO
-	public void registerNewUser(SessionFactoryProducer factoryProducer, 
-			String username, String name, String email, String userType, 
-			String password) {
+	public void registerNewUser(String username, String name, String email, 
+			String userType, String password) {
 		
-		factoryProducer.initialize("hibernate.cfg.xml");	
-		
-		CryptManager.updateKey(SystemConfigs.getConfig("crypt.key"));
-		CryptManager.updateSalt("@2o!A", "70Px$");
-
-		SessionManager mngr = new SessionManager(factoryProducer.getInstance());
-		HibernateDAO dao = new HibernateDAO(mngr);
-		
-		Criteria criteria = dao.newCriteria(User.class);
+		Criteria criteria = this.dao.newCriteria(User.class);
 		criteria.add(Restrictions.eq("username", username));
 		User user = (User) criteria.uniqueResult();
 		
@@ -97,9 +74,7 @@ public class UserBS extends HibernateBusiness {
 			}
 			user.setPassword(CryptManager.passwordHash(password));
 			
-			dao.persist(user);
-			
-			this.validate(mngr);
+			this.dao.persist(user);
 			
 		}else {
 			
@@ -107,40 +82,19 @@ public class UserBS extends HibernateBusiness {
 	}
 	
 	//ATUALIZA USUARIO
-	public void updateUser(SessionFactoryProducer factoryProducer, 
-			User user, String newName, String newEmail, String newPassword) {
-			
-		factoryProducer.initialize("hibernate.cfg.xml");	
-		
-		CryptManager.updateKey(SystemConfigs.getConfig("crypt.key"));
-		CryptManager.updateSalt("@2o!A", "70Px$");
-
-		SessionManager mngr = new SessionManager(factoryProducer.getInstance());
-		HibernateDAO dao = new HibernateDAO(mngr);
-		
+	public void updateUser(User user, String newName, String newEmail, String newPassword) {
 		user.setName(newName);
 		user.setEmail(newEmail);
-		user.setPassword(CryptManager.passwordHash(newPassword));
+		if (newPassword != null) {
+			user.setPassword(CryptManager.passwordHash(newPassword));
+		}
 		
-		dao.update(user);
-		
-		this.validate(mngr);
+		this.dao.update(user);
 	}
 	
 	//DELETA USUÁRIO
-	public void deleteUser(SessionFactoryProducer factoryProducer, User user) {
-		
-		factoryProducer.initialize("hibernate.cfg.xml");	
-		
-		CryptManager.updateKey(SystemConfigs.getConfig("crypt.key"));
-		CryptManager.updateSalt("@2o!A", "70Px$");
-
-		SessionManager mngr = new SessionManager(factoryProducer.getInstance());
-		HibernateDAO dao = new HibernateDAO(mngr);
-		
-		dao.delete(user);
-		
-		this.validate(mngr);
+	public void deleteUser(User user) {
+		this.dao.delete(user);
 	}
 	
 	//VERIFICA USERNAME
@@ -164,27 +118,13 @@ public class UserBS extends HibernateBusiness {
 	}
 	
 	//MUDA A SENHA DE USUÁRIO
-	private void changePassword(SessionFactoryProducer factoryProducer, 
-			User user, String newPassword) {
-		factoryProducer.initialize("hibernate.cfg.xml");	
-		
-		CryptManager.updateKey(SystemConfigs.getConfig("crypt.key"));
-		CryptManager.updateSalt("@2o!A", "70Px$");
-
-		SessionManager mngr = new SessionManager(factoryProducer.getInstance());
-		HibernateDAO dao = new HibernateDAO(mngr);
-		
+	private void changePassword(User user, String newPassword) {
 		user.setPassword(newPassword);
-		
-		dao.update(user);
-		
-		this.validate(mngr);
+		this.dao.update(user);
 	}
 	
 	//RECUPERA SENHA
 	public void recoverPassword(String username, String email) {
-		CryptManager.updateKey(SystemConfigs.getConfig("crypt.key"));
-		CryptManager.updateSalt("@2o!A", "70Px$");
 		Criteria criteria = this.dao.newCriteria(User.class);
 		criteria.add(Restrictions.eq("username", username));
 		User user = (User) criteria.uniqueResult();
@@ -212,8 +152,7 @@ public class UserBS extends HibernateBusiness {
 			msg.setText("Você requisitou uma nova senha para o usuário "
 					+ "\"" + username + "\". Sua nova senha será: " + newPassword);
 
-			user.setPassword(CryptManager.passwordHash(newPassword));
-			this.dao.update(user);
+			this.changePassword(user, newPassword);
 			
 			Transport t = session.getTransport("smtp");   
 			t.connect("smtp.gmail.com", "cgaeguarita@gmail.com", "hodiernamente");

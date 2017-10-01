@@ -80,7 +80,7 @@
 		            </a>
 		        </div>
 		        
-				<c:set var="usrType" scope="session" value="ADMIN"/>
+				<c:set var="usrType" scope="session" value='ADMIN'/>
 				<c:choose>
 					<c:when test="${user.userType.equals(usrType)}">
 						<div class="input-field center-align col s4">

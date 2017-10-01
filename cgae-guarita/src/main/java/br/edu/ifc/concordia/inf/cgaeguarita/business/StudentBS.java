@@ -37,7 +37,7 @@ public class StudentBS extends HibernateBusiness {
 			student.setGrade(grade);
 			imagesUpload.saveImage(studentImg, student);
 			
-			dao.persist(student);
+			this.dao.persist(student);
 		}else {
 			
 		}

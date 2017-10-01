@@ -44,18 +44,20 @@ public class UserController extends AbstractController {
 	@Post(value="/login")
 	@NoCache
 	public void doLogin(String username, String password) { //nomes iguais dos campos para pegar os dados
-		List<String> values = Arrays.asList(username, password);
-		List<String> classes = new ArrayList<String>();
-		for(String x : values) {
-			if (x == null) {
-				classes.add("invalid");
-			} else {
-				classes.add("");
+		if (username == null || password == null) {
+			List<String> values = Arrays.asList(username, password);
+			List<String> classes = new ArrayList<String>();
+			for(String x : values) {
+				if (x == null) {
+					classes.add("invalid");
+				} else {
+					classes.add("");
+				}
 			}
-		}
-		if (classes.contains("invalid")) {
-			this.result.redirectTo(this).login("Os campos devem ser preenchidos!", 
-					classes.get(0), classes.get(1));
+			if (classes.contains("invalid")) {
+				this.result.redirectTo(this).login("Os campos devem ser preenchidos!", 
+						classes.get(0), classes.get(1));
+			}
 		}
 		
 		User user = this.bs.login(username, password);
@@ -105,8 +107,12 @@ public class UserController extends AbstractController {
 		if (!GeneralUtils.isEmpty(inputVal)) {
 			this.result.include("inputVal", inputVal);
 		}
-		this.result.include("usrProfURL", "/users/" + 
-				this.userSession.getUser().getUserType() + "/profile");
+		if (this.userSession.getUser().getUserType().equals("ADMIN")) {
+			this.result.include("usrProfURL", "/users/cgae/profile");
+		}else {
+			this.result.include("usrProfURL", "/users/" + 
+					this.userSession.getUser().getUserType() + "/profile");
+		}
 	}
 	//
 	@Post(value="/users/register")
@@ -121,6 +127,7 @@ public class UserController extends AbstractController {
 		if ((username == null) || (name == null) || (email == null)
 				|| (userType == null) || (password == null)
 				|| (rePassword == null)) {
+			
 			
 			List<String> values = Arrays.asList(username, name, 
 					email, userType, password, rePassword);
@@ -146,8 +153,7 @@ public class UserController extends AbstractController {
 		}
 		
 		if (password.equals(rePassword)) {
-			SessionFactoryProducer factoryProducer = new SessionFactoryProducer();
-			this.bs.registerNewUser(factoryProducer, username, name, email, userType, password);
+			this.bs.registerNewUser(username, name, email, userType, password);
 			this.result.redirectTo(this).profileCGAE("");
 		}else {
 			this.result.redirectTo(this).register("As senhas não coincidem.", "", "", "", "", 
@@ -201,8 +207,12 @@ public class UserController extends AbstractController {
 		List<User> users = this.bs.listAllUsers(filter);
 		this.result.include("users", users);
 		this.result.include("filter", filter);
-		this.result.include("usrProfURL", "/users/" + 
-				this.userSession.getUser().getUserType() + "/profile");
+		if (this.userSession.getUser().getUserType().equals("ADMIN")) {
+			this.result.include("usrProfURL", "/users/cgae/profile");
+		}else {
+			this.result.include("usrProfURL", "/users/" + 
+					this.userSession.getUser().getUserType() + "/profile");
+		}
 	}
 	//
 	@Post(value="/users/control")
@@ -211,8 +221,7 @@ public class UserController extends AbstractController {
 	public void userDelete(Long id) {
 		
 		User user = this.bs.exists(id, User.class);
-		SessionFactoryProducer factoryProducer = new SessionFactoryProducer();
-		this.bs.deleteUser(factoryProducer, user);	
+		this.bs.deleteUser(user);	
 		this.result.redirectTo(this).userList("");
 	}
 	
@@ -245,8 +254,12 @@ public class UserController extends AbstractController {
 			this.result.include("inputVal", inputVal);
 		}
 		this.result.include("user", this.userSession.getUser());
-		this.result.include("usrProfURL", "/users/" + 
-				this.userSession.getUser().getUserType() + "/profile");
+		if (this.userSession.getUser().getUserType().equals("ADMIN")) {
+			this.result.include("usrProfURL", "/users/cgae/profile");
+		}else {
+			this.result.include("usrProfURL", "/users/" + 
+					this.userSession.getUser().getUserType() + "/profile");
+		}
 	}
 	//
 	@Post(value="/users/change-data")
@@ -276,9 +289,8 @@ public class UserController extends AbstractController {
 			User user = this.bs.exists(this.userSession.getUser().getId(), User.class);
 			
 			if (user.getPassword().equals(CryptManager.passwordHash(password))) {
-				if (newPassword.equals(rePassword)) {
-					SessionFactoryProducer factoryProducer = new SessionFactoryProducer();
-					this.bs.updateUser(factoryProducer, user, newName, newEmail, newPassword);
+				if (newPassword.equals(rePassword)) {					
+					this.bs.updateUser(user, newName, newEmail, newPassword);
 					this.result.redirectTo(this).userList("");
 				} else {
 					this.result.redirectTo(this).changeData("As senhas não coincidem!", "", "", "", 
@@ -328,8 +340,12 @@ public class UserController extends AbstractController {
 				this.result.include("user", user);
 			}
 		}
-		this.result.include("usrProfURL", "/users/" + 
-				this.userSession.getUser().getUserType() + "/profile");
+		if (this.userSession.getUser().getUserType().equals("ADMIN")) {
+			this.result.include("usrProfURL", "/users/cgae/profile");
+		}else {
+			this.result.include("usrProfURL", "/users/" + 
+					this.userSession.getUser().getUserType() + "/profile");
+		}
 	}
 	//
 	@Post(value="/users/{id}/edit")
@@ -360,9 +376,8 @@ public class UserController extends AbstractController {
 		User user = this.bs.exists(id, User.class);
 		
 		if (user.getPassword().equals(CryptManager.passwordHash(password))) {
-			if (newPassword.equals(rePassword)) {
-				SessionFactoryProducer factoryProducer = new SessionFactoryProducer();
-				this.bs.updateUser(factoryProducer, user, newName, newEmail, newPassword);
+			if (newPassword.equals(rePassword)) {		
+				this.bs.updateUser(user, newName, newEmail, newPassword);
 				this.result.redirectTo(this).userList("");
 			} else {
 				this.result.redirectTo(this).userEdit(id, "As senhas não coincidem!", "", "", "", 
@@ -376,15 +391,12 @@ public class UserController extends AbstractController {
 	//RECUPERAR SENHA
 	@Get(value="/users/recover-password")
 	@NoCache
-	public void recoverPassword(String errorMsg, String usrNameMsg, String passMsg, String emailMsg) {
+	public void recoverPassword(String errorMsg, String usrNameMsg, String emailMsg) {
 		if (!GeneralUtils.isEmpty(errorMsg)) {
 			this.result.include("errorMsg", errorMsg);
 		}
 		if (!GeneralUtils.isEmpty(usrNameMsg)) {
 			this.result.include("usrNameMsg", usrNameMsg);
-		}
-		if (!GeneralUtils.isEmpty(passMsg)) {
-			this.result.include("passMsg", passMsg);
 		}
 		if (!GeneralUtils.isEmpty(emailMsg)) {
 			this.result.include("emailMsg", emailMsg);
@@ -393,8 +405,8 @@ public class UserController extends AbstractController {
 	
 	@Post(value="/users/recover-password")
 	@NoCache
-	public void recoverUserPass(String username, String password, String email) {
-		List<String> values = Arrays.asList(username, password, email);
+	public void recoverUserPass(String username, String email) {
+		List<String> values = Arrays.asList(username, email);
 		List<String> classes = new ArrayList<String>();
 		for(String x : values) {
 			if (x == null) {
@@ -405,21 +417,15 @@ public class UserController extends AbstractController {
 		}
 		if (classes.contains("invalid")) {
 			this.result.redirectTo(this).recoverPassword("Os campos devem ser preenchidos!",
-					classes.get(0), classes.get(1), classes.get(2));
+					classes.get(0), classes.get(1));
 		} else {
 			User user = this.bs.checkUsername(username);
 			if (user == null) {
 				this.result.redirectTo(this).recoverPassword("Nome de usuário incorreto!",
-						"invalid", "", "");
+						"invalid", "");
 			} else {
-				User user2 = this.bs.login(username, password);
-				if (user2 == null) {
-					this.result.redirectTo(this).recoverPassword("Usuário ou senha incorretos!",
-							"invalid", "invalid", "");
-				}else {
-					this.bs.recoverPassword(username, email);
-					this.result.redirectTo(this).login("", "", "");
-				}
+				this.bs.recoverPassword(username, email);
+				this.result.redirectTo(this).login("", "", "");
 			}
 		}
 	}

@@ -3,6 +3,8 @@
 
 <c:import url="/includes/header.jsp" />
 	
+	<c:import url="/includes/searchNavBar.jsp" />
+	
 	<h3 class="center-align">Usuários</h3>
 	<div class="row">
 		<div class="col s6 offset-s3">
