@@ -5,32 +5,32 @@
 
 	<c:import url="/includes/searchNavBar.jsp" />
 	
-	<script type="text/javascript">
+	<!-- <script type="text/javascript">
 		$(document).ready(function(){
 		    $(".modal").modal();
 		});
-	</script>
+	</script> -->
+	
+	<div id="sureDelete" class="modal">
+		<div class="modal-content">
+			<h4 class="ifc-green-text">Deletar Usuário</h4>
+			<p>Você tem certeza que deseja apagar definitivamente este usuário da lista de usuários?</p>
+			<p>A ação não poderá ser desfeita.</p>
+		</div>
+		<div class="modal-footer">
+			<form method="POST" action="<c:url value="/users/control" />">
+				<input type="text" name="id" id="id" value="${user.id}" class="invisible" />
+				<a href="#!" class="modal-action modal-close waves-effect waves btn-flat">Cancelar</a>
+				<button type="submit" class="modal-action modal-close waves-effect waves btn-flat">
+					Apagar
+				</button>
+			</form>
+		</div>
+	</div>
 	
 	<h3 class="center-align">Editar usuário</h3>
 	<div class="row">
 		<div class="col s12 m6 offset-m3">
-		
-			<div id="sureDelete" class="modal">
-				<div class="modal-content">
-					<h4 class="ifc-green-text">Deletar Usuário</h4>
-					<p>Você tem certeza que deseja apagar definitivamente este usuário da lista de usuários?</p>
-					<p>A ação não poderá ser desfeita.</p>
-				</div>
-				<div class="modal-footer">
-					<form method="POST" action="<c:url value="/users/control" />">
-						<input type="text" name="id" id="id" value="${user.id}" class="invisible" />
-						<a href="#!" class="modal-action modal-close waves-effect waves btn-flat">Cancelar</a>
-						<button type="submit" class="modal-action modal-close waves-effect waves btn-flat">
-							Apagar
-						</button>
-					</form>
-				</div>
-			</div>
 		
 			<form class="card-panel" method="POST"
 				 	action="<c:url value="/users/${user.id}/edit" />">

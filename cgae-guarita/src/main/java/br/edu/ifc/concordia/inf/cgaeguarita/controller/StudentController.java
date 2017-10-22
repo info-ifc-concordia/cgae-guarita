@@ -2,8 +2,11 @@ package br.edu.ifc.concordia.inf.cgaeguarita.controller;
 
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.text.Format;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -91,6 +94,24 @@ public class StudentController extends AbstractController {
 		}
 	}
 	
+	@Post(value="/students/{registration}/profile")
+	@NoCache
+	public void newAuthorization(String description, String registration) {
+		Student student = this.sbs.exists(registration, Student.class);
+		
+		Date dateTime = new Date();
+		Format dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+		Format timeFormat = new SimpleDateFormat("HH:mm");
+		String date = dateFormat.format(dateTime);
+		String time = timeFormat.format(dateTime);
+		
+		String userName = this.userSession.getUser().getUsername();
+		
+		this.sbs.registerNewAuthorization(description, student, date, time, userName);
+		this.result.redirectTo(this).studentProfile(registration);
+	}
+	
+	//DOWNLOAD E UPLOAD DA IMAGEM DO ALUNO
 	@Get(value="/students/{registration}/image")
 	@NoCache
 	public void getStudentImage(String registration) {

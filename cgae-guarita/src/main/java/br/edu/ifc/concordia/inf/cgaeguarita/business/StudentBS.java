@@ -1,5 +1,6 @@
 package br.edu.ifc.concordia.inf.cgaeguarita.business;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.enterprise.context.RequestScoped;
@@ -13,6 +14,7 @@ import br.com.caelum.vraptor.boilerplate.HibernateBusiness;
 import br.com.caelum.vraptor.boilerplate.util.GeneralUtils;
 import br.com.caelum.vraptor.observer.upload.UploadedFile;
 import br.edu.ifc.concordia.inf.cgaeguarita.ImagesUpload;
+import br.edu.ifc.concordia.inf.cgaeguarita.model.Authorization;
 import br.edu.ifc.concordia.inf.cgaeguarita.model.Student;
 
 @RequestScoped
@@ -51,6 +53,22 @@ public class StudentBS extends HibernateBusiness {
 			criteria.add(Restrictions.ilike("registration", filter, MatchMode.ANYWHERE));
 		}
 		return this.dao.findByCriteria(criteria, Student.class);
+	}
+	
+	//CADASTRA NOVA AUTORIZAÇÃO
+	public void registerNewAuthorization(String description, Student student,
+			String date, String time, String userName) {
+		
+		Authorization authorization = new Authorization();
+		authorization.setDescription(description);
+		authorization.setStudent(student);
+		authorization.setDate(date);
+		authorization.setTime(time);
+		authorization.setUserName(userName);
+		
+		this.dao.persist(authorization);
+		
+		
 	}
 	
 }

@@ -4,20 +4,23 @@
 <c:import url="/includes/header.jsp" />
 
 	<!-- MODAL -->
-	
-	<div id="modal2" class="modal">
-	    <div class="modal-content">
-	        <h4>Nova Observação</h4>
-	        <div class="input-field">
-	            <textarea id="textarea2" class="materialize-textarea"></textarea>
-	            <label for="textarea2">Detalhes da Observação</label>
-	
-	        </div>
-	    </div>
-	    <div class="modal-footer">
-	        <a href="#!" class="modal-action modal-close waves-effect waves-red btn-flat">Cancelar</a>
-	        <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Salvar</a>
-	    </div>
+	<div id="newAuth" class="modal">
+		<form method="POST" action="<c:url value="/students/${student.registration}/profile" />">
+			<div class="modal-content">
+				<h4 class="ifc-green-text">Nova Observação</h4>
+				<div class="input-field">
+		            <textarea name="description" id="description" class="materialize-textarea"></textarea>
+		            <label for="description" class="black-text">Detalhes da Observação</label>
+		        </div>
+			</div>
+			<div class="modal-footer">
+				<input name="registration" value="${student.registration}" class="invisible">
+				<a href="#!" class="modal-action modal-close waves-effect waves btn-flat">Cancelar</a>
+				<button type="submit" class="modal-action modal-close waves-effect waves btn-flat">
+					Salvar
+				</button>
+			</div>
+		</form>
 	</div>
 	
 	<c:import url="/includes/searchNavBar.jsp" />
@@ -36,7 +39,7 @@
 			
 		<p class="col m4">Última Observação</p>
 		<div class="input-field col m5 right-align">
-		    <a class="ifc-green waves-effect waves-light btn" href="#modal2">
+		    <a class="ifc-green waves-effect waves-light btn" href="#newAuth">
 		        Nova Observação
 		        <i class="material-icons right">library_add</i>
 		    </a>
