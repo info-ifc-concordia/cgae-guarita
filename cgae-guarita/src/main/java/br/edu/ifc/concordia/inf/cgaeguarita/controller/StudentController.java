@@ -95,6 +95,7 @@ public class StudentController extends AbstractController {
 				this.result.notFound();
 			} else {
 				this.result.include("student", student);
+				this.result.include("user", this.userSession.getUser());
 				try{
 					Authorization lastAuthorization = authorization.get(authorization.size()-1);
 					this.result.include("lastAuthorization", lastAuthorization);

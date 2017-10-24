@@ -25,9 +25,19 @@
 	
 	<c:import url="/includes/searchNavBar.jsp" />
 
+<!-- CÓDIGO -->
 <div class="row">
 
 	<div class="col m8 s12 offset-m2">
+		<c:if test="${user.userType.equals('Guarita')}">
+			<div class="input-field inline center">
+				<input name="inOrOut" type="radio" id="in">
+				<label class="black-text" for="in">Entrada</label>
+		
+				<input name="inOrOut" type="radio" id="out">
+				<label class="black-text" for="out">Saída</label>
+			</div>
+		</c:if>
 		
 		<div class="center">
 		    <img src="<c:url value="/students/${student.registration}/image"/>" 
