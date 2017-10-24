@@ -15,48 +15,33 @@
 </div>
 
 <div class="row">
-
-      <div class="col m8 offset-m2">
-          <h4 class="center-align">Nome do Aluno</h4>
-          <h6 class="center-align">Visão de todas as observações</h6><br>
-          <!--  -->
-        <div class="card-panel row">
-            <h5 class="center-align">DD/MM/AAAA</h5>
-            <div class="card-panel col s12 grey lighten-3 z-depth-1">
-                <p>O aluno está autorizado para...</p>
-                <p class="right-align ifc-green-text">HH:MM</p>
-
-                <div class="input-field right-align">
-                    <a class="ifc-green waves-effect waves-light btn">
-                        Editar
-                        <i class="material-icons right">mode_edit</i>
-                    </a>
-                </div>
-            </div>
-            <div class="card-panel col s12 grey lighten-3 z-depth-1">
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-                <p class="right-align ifc-green-text">HH:MM</p>
-
-                <div class="input-field right-align">
-                    <a  class="ifc-green waves-effect waves-light btn" href="#modal1">
-                        Editar
-                        <i class="material-icons right">mode_edit</i>
-                    </a>
-                </div>
-            </div>
-            <div class="card-panel col s12 grey lighten-3 z-depth-1">
-                <p>O aluno está autorizado para...</p>
-                <p class="right-align ifc-green-text">HH:MM</p>
-
-                <div class="input-field right-align">
-                    <a class="ifc-green waves-effect waves-light btn">
-                        Editar
-                        <i class="material-icons right">mode_edit</i>
-                    </a>
-                </div>
-            </div>
-        </div>
-
+	<div class="col m8 offset-m2">
+		<h4 class="center-align">${authorizations.get(0).student.name}</h4>
+        <h6 class="center-align">Visão de todas as observações</h6><br>
+        <!--  -->
+        
+        <c:forEach items="${authorizations}" var="authorization">
+        
+	        <div class="">
+	            <h5 class="center-align">${authorization.date}</h5>
+	            <div class="card-panel col s12 grey lighten-3 z-depth-1">
+	                <p>${authorization.description}</p>
+	                <p class="right-align ifc-green-text">${authorization.time}</p>
+	
+	                <div class="input-field right-align">
+	                    <a class="ifc-green waves-effect waves-light btn">
+	                        Editar
+	                        <i class="material-icons right">mode_edit</i>
+	                    </a>
+	                </div>
+	                <br>
+	            </div>
+	        </div><br>
+        	
+        
+        </c:forEach>
+        
+        
     </div>
 </div>
 

@@ -67,8 +67,14 @@ public class StudentBS extends HibernateBusiness {
 		authorization.setUserName(userName);
 		
 		this.dao.persist(authorization);
-		
-		
+			
+	}
+	
+	//PEGA AUTORIZAÇÕES
+	public List<Authorization> getAuthorization(Student student) {
+		Criteria criteria = this.dao.newCriteria(Authorization.class);
+		criteria.add(Restrictions.eq("student", student));
+		return this.dao.findByCriteria(criteria, Authorization.class);
 	}
 	
 }

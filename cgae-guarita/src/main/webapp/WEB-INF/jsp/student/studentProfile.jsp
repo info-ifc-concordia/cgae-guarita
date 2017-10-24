@@ -46,15 +46,16 @@
 		</div>
 		<div class="input-field col m3 right-align">
 		    <a class="ifc-green waves-effect waves-light btn" 
-		    		href="<c:url value="/alunos/${student.registration}/autorizacoes" />">
+		    		href="<c:url value="/students/${student.registration}/autorizacoes" />">
 		        Visão Geral
 		        <i class="material-icons right">visibility</i>
 		    </a>
 		</div>
 		
 		<div class="card-panel grey lighten-3 z-depth-1">
-		    <p class="">Última observação feita para o aluno</p>
-		    <p class="right-align ifc-color-1-text">DD/MM/AAAA</p>
+		    <h6 class="">Última observação feita para o aluno</h6>
+		    <p>${lastAuthorization.description}</p>
+		    <p class="right-align ifc-color-1-text">${lastAuthorization.date}</p>
 		</div>
 	
 	</div>

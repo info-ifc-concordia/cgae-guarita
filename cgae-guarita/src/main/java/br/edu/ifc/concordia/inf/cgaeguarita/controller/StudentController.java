@@ -13,6 +13,7 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.poi.ss.formula.functions.T;
 
 import br.com.caelum.vraptor.Controller;
 import br.com.caelum.vraptor.Get;
@@ -22,6 +23,7 @@ import br.com.caelum.vraptor.boilerplate.util.GeneralUtils;
 import br.com.caelum.vraptor.observer.upload.UploadedFile;
 import br.edu.ifc.concordia.inf.cgaeguarita.abstractions.AbstractController;
 import br.edu.ifc.concordia.inf.cgaeguarita.business.StudentBS;
+import br.edu.ifc.concordia.inf.cgaeguarita.model.Authorization;
 import br.edu.ifc.concordia.inf.cgaeguarita.model.Student;
 import br.edu.ifc.concordia.inf.cgaeguarita.permission.Permission;
 import br.edu.ifc.concordia.inf.cgaeguarita.permission.UserRoles;
@@ -79,6 +81,7 @@ public class StudentController extends AbstractController {
 		
 	}
 	
+	//PERFIL DO ALUNO
 	@Get(value="/students/{registration}/profile")
 	@NoCache
 	public void studentProfile(String registration) {
@@ -86,10 +89,18 @@ public class StudentController extends AbstractController {
 			this.result.notFound();
 		} else {
 			Student student = this.sbs.exists(registration, Student.class);
+			
+			List<Authorization> authorization = sbs.getAuthorization(student);
 			if (student == null) {
 				this.result.notFound();
-			}else {
+			} else {
 				this.result.include("student", student);
+				try{
+					Authorization lastAuthorization = authorization.get(authorization.size()-1);
+					this.result.include("lastAuthorization", lastAuthorization);
+				} catch(Exception e) {
+					
+				}
 			}
 		}
 	}
@@ -98,17 +109,20 @@ public class StudentController extends AbstractController {
 	@NoCache
 	public void newAuthorization(String description, String registration) {
 		Student student = this.sbs.exists(registration, Student.class);
-		
-		Date dateTime = new Date();
-		Format dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-		Format timeFormat = new SimpleDateFormat("HH:mm");
-		String date = dateFormat.format(dateTime);
-		String time = timeFormat.format(dateTime);
-		
-		String userName = this.userSession.getUser().getUsername();
-		
-		this.sbs.registerNewAuthorization(description, student, date, time, userName);
-		this.result.redirectTo(this).studentProfile(registration);
+		if (student == null) {
+			this.result.notFound();
+		} else {
+			Date dateTime = new Date();
+			Format dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+			Format timeFormat = new SimpleDateFormat("HH:mm");
+			String date = dateFormat.format(dateTime);
+			String time = timeFormat.format(dateTime);
+			
+			String userName = this.userSession.getUser().getUsername();
+			
+			this.sbs.registerNewAuthorization(description, student, date, time, userName);
+			this.result.redirectTo(this).studentProfile(registration);
+		}
 	}
 	
 	//DOWNLOAD E UPLOAD DA IMAGEM DO ALUNO
@@ -121,7 +135,7 @@ public class StudentController extends AbstractController {
 			Student student = this.sbs.exists(registration, Student.class);
 			if (student == null) {
 				this.result.notFound();
-			}else {
+			} else {
 				try {
 					InputStream read = new FileInputStream(student.getImage());
 					this.response.setContentType(student.getImageType());
@@ -131,6 +145,22 @@ public class StudentController extends AbstractController {
 					LOGGER.error(ex);
 					this.result.notFound();
 				}
+			}
+		}
+	}
+	
+	//AUTORIZAÇÕES DO ALUNO
+	@Get(value="/students/{registration}/autorizacoes")
+	public void authorizations(String registration) {
+		if (registration == null) {
+			this.result.notFound();
+		} else {
+			Student student = this.sbs.exists(registration, Student.class);
+			if (student == null) {
+				this.result.notFound();
+			} else {
+				List<Authorization> authorizations = sbs.getAuthorization(student);
+				this.result.include("authorizations", authorizations);
 			}
 		}
 	}
@@ -146,31 +176,17 @@ public class StudentController extends AbstractController {
 			this.result.include("filter", filter);
 		}
 	}
-	//
+	
 	@Post(value="/students/list")
 	@NoCache
 	public void searchStudent(String registration) {
 		List<Student> students = this.sbs.listStudents(registration);
 		if (students.size() == 0) {
 			this.result.notFound();
-		}else if (students.size() == 1) {
+		} else if (students.size() == 1) {
 			this.result.redirectTo(this).studentProfile(students.get(0).getRegistration());
-		}else {
+		} else {
 			this.result.redirectTo(this).studentList(students, registration);
 		}
 	}
-	
-	//PEDIR PRO RENATO SE NÃO SERIA EM OUTRO CONTROLLER E EM OUTRO ARQUIVO BS!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-	@Get(value="/students/historico")
-	@NoCache
-	public void historico() {
-		
-	}
-	
-	@Get(value="/alunos/{registration}/autorizacoes")
-	@NoCache
-	public void authorizations(String registration) {
-		
-	}
-	
 }
