@@ -84,6 +84,7 @@ public class StudentController extends AbstractController {
 	//PERFIL DO ALUNO
 	@Get(value="/students/{registration}/profile")
 	@NoCache
+	@Permission(UserRoles.NORMAL)
 	public void studentProfile(String registration) {
 		if (registration == null) {
 			this.result.notFound();
@@ -105,9 +106,10 @@ public class StudentController extends AbstractController {
 			}
 		}
 	}
-	
+
 	@Post(value="/students/{registration}/profile")
 	@NoCache
+	@Permission(UserRoles.NORMAL)
 	public void newAuthorization(String description, String registration) {
 		Student student = this.sbs.exists(registration, Student.class);
 		if (student == null) {
@@ -129,6 +131,7 @@ public class StudentController extends AbstractController {
 	//DOWNLOAD E UPLOAD DA IMAGEM DO ALUNO
 	@Get(value="/students/{registration}/image")
 	@NoCache
+	@Permission(UserRoles.NORMAL)
 	public void getStudentImage(String registration) {
 		if (registration == null) {
 			this.result.notFound();
@@ -152,6 +155,8 @@ public class StudentController extends AbstractController {
 	
 	//AUTORIZAÇÕES DO ALUNO
 	@Get(value="/students/{registration}/autorizacoes")
+	@NoCache
+	@Permission(UserRoles.NORMAL)
 	public void authorizations(String registration) {
 		if (registration == null) {
 			this.result.notFound();
@@ -166,9 +171,35 @@ public class StudentController extends AbstractController {
 		}
 	}
 	
+	//EDITA AUTORIZAÇÕES
+	@Post(value="/students/{registration}/autorizacoes") 
+	@NoCache
+	@Permission(UserRoles.NORMAL)
+	public void authorizationsActions(String registration, Long id, String newDescription) {
+		if (newDescription == null) {
+			Authorization authorization = this.sbs.exists(id, Authorization.class);
+			this.sbs.deleteAuthotization(authorization);
+			this.result.redirectTo(this).authorizations(registration);
+			
+		} else {
+			Authorization authorization = this.sbs.exists(id, Authorization.class);
+			Date dateTime = new Date();
+			Format dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+			Format timeFormat = new SimpleDateFormat("HH:mm");
+			String date = dateFormat.format(dateTime);
+			String time = timeFormat.format(dateTime);
+			
+			String userName = this.userSession.getUser().getUsername();
+			
+			this.sbs.updateAuthorization(authorization, newDescription, date, time, userName);
+			this.result.redirectTo(this).authorizations(registration);
+		}
+	}
+	
 	//LISTAGEM DE ALUNOS
 	@Get(value="/students/list")
 	@NoCache
+	@Permission(UserRoles.NORMAL)
 	public void studentList(List<Student> students, String filter) {
 		if (!GeneralUtils.isEmpty(students)) {
 			this.result.include("students", students);
@@ -180,6 +211,7 @@ public class StudentController extends AbstractController {
 	
 	@Post(value="/students/list")
 	@NoCache
+	@Permission(UserRoles.NORMAL)
 	public void searchStudent(String registration) {
 		List<Student> students = this.sbs.listStudents(registration);
 		if (students.size() == 0) {

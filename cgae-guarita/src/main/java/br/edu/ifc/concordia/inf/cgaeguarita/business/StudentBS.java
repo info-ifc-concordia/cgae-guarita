@@ -70,11 +70,27 @@ public class StudentBS extends HibernateBusiness {
 			
 	}
 	
-	//PEGA AUTORIZAÇÕES
+	//LISTA AUTORIZAÇÕES
 	public List<Authorization> getAuthorization(Student student) {
 		Criteria criteria = this.dao.newCriteria(Authorization.class);
 		criteria.add(Restrictions.eq("student", student));
 		return this.dao.findByCriteria(criteria, Authorization.class);
 	}
 	
+	//EXCLUI AUTORIZAÇÃO
+	public void deleteAuthotization(Authorization authorization) {
+		this.dao.delete(authorization);
+	}
+	
+	//ATUALIZA AUTORIZAÇÃO
+	public void updateAuthorization(Authorization authorization, String newDescription,
+			String date, String time, String userName) {
+		
+		authorization.setDescription(newDescription);
+		authorization.setDate(date);
+		authorization.setTime(time);
+		authorization.setUserName(userName);
+		
+		this.dao.update(authorization);
+	}
 }
