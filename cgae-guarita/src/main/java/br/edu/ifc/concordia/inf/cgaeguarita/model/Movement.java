@@ -8,17 +8,15 @@ import javax.persistence.Table;
 
 import br.com.caelum.vraptor.boilerplate.SimpleEntity;
 
-@Entity(name="authorizations")
-@Table(name="authorizations")
-public class Authorization extends SimpleEntity implements Serializable{
-	private static final long serialVersionUID = 1L;
-	
+@Entity(name="movements")
+@Table(name="movements")
+public class Movement extends SimpleEntity implements Serializable{
 	@ManyToOne(optional=false, targetEntity=Student.class)
 	private Student student;
 	
 	private String date;
 	private String time;
-	private String description;
+	private String movementType;
 	private String userName;
 	
 	public Student getStudent() {
@@ -39,11 +37,11 @@ public class Authorization extends SimpleEntity implements Serializable{
 	public void setTime(String time) {
 		this.time = time;
 	}
-	public String getDescription() {
-		return description;
+	public String getMovementType() {
+		return movementType;
 	}
-	public void setDescription(String description) {
-		this.description = description;
+	public void setMovementType(String movementType) {
+		this.movementType = movementType;
 	}
 	public String getUserName() {
 		return userName;
@@ -51,7 +49,6 @@ public class Authorization extends SimpleEntity implements Serializable{
 	public void setUserName(String userName) {
 		this.userName = userName;
 	}
-
-
-
+	
+	
 }

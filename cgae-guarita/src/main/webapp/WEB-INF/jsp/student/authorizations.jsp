@@ -66,6 +66,7 @@
 			     
 	            <div class="card-panel col s12 grey lighten-3 z-depth-1">
 	                <p>${authorization.description}</p>
+	                <p class="left-align ifc-green-text">${authorization.userName}</p>
 	                <p class="right-align ifc-green-text">${authorization.time}</p>
 	
 	                <div class="input-field right-align">

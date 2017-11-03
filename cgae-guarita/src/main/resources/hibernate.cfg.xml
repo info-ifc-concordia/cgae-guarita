@@ -45,6 +45,7 @@
   		<mapping class="br.edu.ifc.concordia.inf.cgaeguarita.model.User"/>
   		<mapping class="br.edu.ifc.concordia.inf.cgaeguarita.model.Student"/>
   		<mapping class="br.edu.ifc.concordia.inf.cgaeguarita.model.Authorization"/>
+  		<mapping class="br.edu.ifc.concordia.inf.cgaeguarita.model.Movement"/>
   		
 	</session-factory>
 </hibernate-configuration>

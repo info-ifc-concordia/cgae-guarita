@@ -28,17 +28,8 @@
 <!-- CÓDIGO -->
 <div class="row">
 
-	<div class="col m8 s12 offset-m2">
-		<c:if test="${user.userType.equals('Guarita')}">
-			<div class="input-field inline center">
-				<input name="inOrOut" type="radio" id="in">
-				<label class="black-text" for="in">Entrada</label>
-		
-				<input name="inOrOut" type="radio" id="out">
-				<label class="black-text" for="out">Saída</label>
-			</div>
-		</c:if>
-		
+	<div class="col m8 offset-m2">
+			
 		<div class="center">
 		    <img src="<c:url value="/students/${student.registration}/image"/>" 
 		    		class="responsive-img">
@@ -47,30 +38,34 @@
 		<h5 class="center-align">${student.name}</h5>
 		<h6 class="center-align">${student.course} - ${student.grade}</h6>
 			
-		<p class="col m4">Última Observação</p>
-		<div class="input-field col m5 right-align">
-		    <a class="ifc-green waves-effect waves-light btn" href="#newAuth">
-		        Nova Observação
-		        <i class="material-icons right">library_add</i>
-		    </a>
-		</div>
-		<div class="input-field col m3 right-align">
-		    <a class="ifc-green waves-effect waves-light btn" 
-		    		href="<c:url value="/students/${student.registration}/autorizacoes" />">
-		        Visão Geral
-		        <i class="material-icons right">visibility</i>
-		    </a>
-		</div>
+		<c:if test="${not user.userType.equals('Guarita')}">
+			<div class="input-field right-align">
+		<!-- NOVA OBSERVAÇÃO -->
+				    <a class="ifc-green waves-effect waves-light btn" href="#newAuth">
+				        Nova Observação
+				        <i class="material-icons right">library_add</i>
+				    </a>
+		<!-- VISÃO GERAL -->
+				    <a class="ifc-green waves-effect waves-light btn" href="<c:url value="/students/${student.registration}/autorizacoes" />">
+				        Visão Geral
+				        <i class="material-icons right">visibility</i>
+				    </a>
+		<!-- HISTORICO DO ALUNO -->
+					<a class="ifc-green waves-effect waves-light btn" href="<c:url value="/students/${student.registration}/historical" />">
+				        Historico de Movimentação
+				        <i class="material-icons right">history</i>
+				    </a>
+			</div>
+		</c:if>
 		
 		<div class="card-panel grey lighten-3 z-depth-1">
-		    <h6 class="">Última observação feita para o aluno</h6>
+			<h5 class="">Última Observação</h5>
 		    <p>${lastAuthorization.description}</p>
-		    <p class="right-align ifc-color-1-text">${lastAuthorization.date}</p>
+		    <p class="left-align col m6">Autorização dada por: ${lastAuthorization.userName}</p>
+		    <p class="right-align col m6">${lastAuthorization.date}</p>
+		    <br>
 		</div>
-	
 	</div>
-
 </div>
-
 
 <c:import url="/includes/footer.jsp" />

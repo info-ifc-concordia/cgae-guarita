@@ -1,22 +1,22 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<!-- <nav class="ifc-green"> -->
-<!--     <div class="nav-wrapper"> -->
-<%--         <form method="POST" action="<c:url value="/students/list" />" > --%>
-<!--             <div class="input-field"> -->
-<%--                 <input name="registration" id="searchNavBar" type="search" value="${filter}" required> --%>
-<!--                 <label for="searchNavBar" class="white-text search-nav-bar-label"> -->
-<!--                     Buscar aluno pelo número de matrícula -->
-<!--                 </label> -->
-<!--                 <i class="material-icons">close</i> -->
-<!--             </div> -->
-<!--         </form> -->
-<!--     </div> -->
-<!-- </nav> -->
-<!-- <br> -->
+<nav class="ifc-green">
+    <div class="nav-wrapper">
+        <form method="POST" action="<c:url value="/students/list" />" >
+            <div class="input-field">
+                <input name="registration" id="searchNavBar" type="search" value="${filter}" required>
+                <label for="searchNavBar" class="white-text search-nav-bar-label">
+                    Buscar aluno pelo número de matrícula
+                </label>
+                <i class="material-icons">close</i>
+            </div>
+        </form>
+    </div>
+</nav>
+<br>
 
-<!-- DROPDOWN -->
+<%-- <!-- DROPDOWN -->
 <ul id="dropdown1" class="dropdown-content row">
   	<li><a href="<c:url value="/login" />">Sair</a></li>
 	<li><a href="<c:url value="${usrProfURL}" />">Home</a></li>
@@ -39,4 +39,4 @@
             </div>
         </form>
     </div>
-</nav> 
+</nav>  --%>

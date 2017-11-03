@@ -424,8 +424,14 @@ public class UserController extends AbstractController {
 				this.result.redirectTo(this).recoverPassword("Nome de usuário incorreto!",
 						"invalid", "");
 			} else {
-				this.bs.recoverPassword(username, email);
-				this.result.redirectTo(this).login("", "", "");
+				if (user.getEmail().equals(email)) {
+					this.bs.recoverPassword(username, email);
+					this.result.redirectTo(this).login("", "", "");
+				}
+				else {
+					this.result.redirectTo(this).recoverPassword("E-mail não corresponde ao usuário solicitado!",
+							"", "invalid");
+				}
 			}
 		}
 	}

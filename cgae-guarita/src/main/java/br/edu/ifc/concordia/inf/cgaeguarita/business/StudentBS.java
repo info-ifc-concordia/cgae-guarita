@@ -1,6 +1,5 @@
 package br.edu.ifc.concordia.inf.cgaeguarita.business;
 
-import java.util.Date;
 import java.util.List;
 
 import javax.enterprise.context.RequestScoped;
@@ -15,6 +14,7 @@ import br.com.caelum.vraptor.boilerplate.util.GeneralUtils;
 import br.com.caelum.vraptor.observer.upload.UploadedFile;
 import br.edu.ifc.concordia.inf.cgaeguarita.ImagesUpload;
 import br.edu.ifc.concordia.inf.cgaeguarita.model.Authorization;
+import br.edu.ifc.concordia.inf.cgaeguarita.model.Movement;
 import br.edu.ifc.concordia.inf.cgaeguarita.model.Student;
 
 @RequestScoped
@@ -92,5 +92,27 @@ public class StudentBS extends HibernateBusiness {
 		authorization.setUserName(userName);
 		
 		this.dao.update(authorization);
+	}
+
+	//CADASTRA NOVA MOVIMENTAÇÃO
+	public void registerNewMovement(Student student, String date, String time,
+			String movementType, String userName) {
+		
+		Movement movement = new Movement();
+		movement.setStudent(student);
+		movement.setDate(date);
+		movement.setTime(time);
+		movement.setMovementType(movementType);
+		movement.setUserName(userName);
+		
+		this.dao.persist(movement);
+		
+	}
+	
+	//LISTA MOVIMENTAÇÃO
+	public List<Movement> getMovement(Student student) {
+		Criteria criteria = this.dao.newCriteria(Authorization.class);
+		criteria.add(Restrictions.eq("student", student));
+		return this.dao.findByCriteria(criteria, Movement.class);
 	}
 }

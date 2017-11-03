@@ -35,7 +35,8 @@ COR QUE TÁ NO SITE DO IFC: #096318
     background-color: #ca1c23;
 }
 
-.input-field .ifc-red:hover {
+.input-field .ifc-red:hover,
+a .ifc-red:hover {
     background-color: #910a10 !important;
 }
 

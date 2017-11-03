@@ -13,7 +13,6 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.io.IOUtils;
-import org.apache.poi.ss.formula.functions.T;
 
 import br.com.caelum.vraptor.Controller;
 import br.com.caelum.vraptor.Get;
@@ -24,6 +23,7 @@ import br.com.caelum.vraptor.observer.upload.UploadedFile;
 import br.edu.ifc.concordia.inf.cgaeguarita.abstractions.AbstractController;
 import br.edu.ifc.concordia.inf.cgaeguarita.business.StudentBS;
 import br.edu.ifc.concordia.inf.cgaeguarita.model.Authorization;
+import br.edu.ifc.concordia.inf.cgaeguarita.model.Movement;
 import br.edu.ifc.concordia.inf.cgaeguarita.model.Student;
 import br.edu.ifc.concordia.inf.cgaeguarita.permission.Permission;
 import br.edu.ifc.concordia.inf.cgaeguarita.permission.UserRoles;
@@ -171,7 +171,6 @@ public class StudentController extends AbstractController {
 		}
 	}
 	
-	//EDITA AUTORIZAÇÕES
 	@Post(value="/students/{registration}/autorizacoes") 
 	@NoCache
 	@Permission(UserRoles.NORMAL)
@@ -220,6 +219,24 @@ public class StudentController extends AbstractController {
 			this.result.redirectTo(this).studentProfile(students.get(0).getRegistration());
 		} else {
 			this.result.redirectTo(this).studentList(students, registration);
+		}
+	}
+
+	//MOVIMENTAÇÃO DO ALUNO
+	@Get(value="/students/{registration}/historical")
+	@NoCache
+	@Permission(UserRoles.NORMAL)
+	public void historical(String registration) {
+		if (registration == null) {
+			this.result.notFound();
+		} else {
+			Student student = this.sbs.exists(registration, Student.class);
+			if (student == null) {
+				this.result.notFound();
+			} else {
+				List<Movement> movements = sbs.getMovement(student);
+				this.result.include("movements", movements);
+			}	
 		}
 	}
 }
