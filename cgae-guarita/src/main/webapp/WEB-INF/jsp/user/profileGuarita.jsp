@@ -11,10 +11,10 @@
 		
 			<div class="input-field inline">
 				<h6 class="left-align black-text">Movimento a verificar:</h6>
-				<input name="inOrOut" type="radio" id="in">
+				<input name="movementType" type="radio" id="in" value="Entrada">
 				<label class="black-text" for="in">Entrada</label>
 		
-				<input name="inOrOut" type="radio" id="out">
+				<input name="movementType" type="radio" id="out" value="Saída">
 				<label class="black-text" for="out">Saída</label>
 			</div>
 			<br><br>

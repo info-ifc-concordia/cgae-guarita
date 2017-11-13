@@ -90,7 +90,6 @@ public class StudentController extends AbstractController {
 			this.result.notFound();
 		} else {
 			Student student = this.sbs.exists(registration, Student.class);
-			
 			List<Authorization> authorization = sbs.getAuthorization(student);
 			if (student == null) {
 				this.result.notFound();
@@ -227,6 +226,23 @@ public class StudentController extends AbstractController {
 	@NoCache
 	@Permission(UserRoles.NORMAL)
 	public void historical(String registration) {
+		if (registration == null) {
+			this.result.notFound();
+		} else {
+			Student student = this.sbs.exists(registration, Student.class);
+			if (student == null) {
+				this.result.notFound();
+			} else {
+				List<Movement> movements = sbs.getMovement(student);
+				this.result.include("movements", movements);
+			}	
+		}
+	}
+	
+	@Post(value="/students/{registration}/historical")
+	@NoCache
+	@Permission(UserRoles.NORMAL)
+	public void historicalRegister(String registration, String movementType) {
 		if (registration == null) {
 			this.result.notFound();
 		} else {

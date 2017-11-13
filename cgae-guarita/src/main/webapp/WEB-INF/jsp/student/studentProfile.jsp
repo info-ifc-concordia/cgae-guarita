@@ -14,7 +14,7 @@
 		        </div>
 			</div>
 			<div class="modal-footer">
-				<input name="registration" value="${student.registration}" class="invisible">
+				<input name="registration" id="registration" value="${student.registration}" class="invisible">
 				<a href="#!" class="modal-action modal-close waves-effect waves btn-flat">Cancelar</a>
 				<button type="submit" class="modal-action modal-close waves-effect waves btn-flat">
 					Salvar
@@ -37,6 +37,18 @@
 		
 		<h5 class="center-align">${student.name}</h5>
 		<h6 class="center-align">${student.course} - ${student.grade}</h6>
+		
+		<c:if test="${user.userType.equals('Guarita')}">
+			<div class="input-field inline">
+				<h6 class="left-align black-text">Movimento a verificar:</h6>
+				<input name="movementType" type="radio" id="in" value="Entrada">
+				<label class="black-text" for="in">Entrada</label>
+		
+				<input name="movementType" type="radio" id="out" value="Saída">
+				<label class="black-text" for="out">Saída</label>
+			</div>
+			<br><br>
+		</c:if>
 			
 		<c:if test="${not user.userType.equals('Guarita')}">
 			<div class="input-field right-align">
@@ -61,11 +73,14 @@
 		<div class="card-panel grey lighten-3 z-depth-1">
 			<h5 class="">Última Observação</h5>
 		    <p>${lastAuthorization.description}</p>
-		    <p class="left-align col m6">Autorização dada por: ${lastAuthorization.userName}</p>
+		    <p class="left-align col m6"><b>Autorização dada por: ${lastAuthorization.userName}</b>></p>
 		    <p class="right-align col m6">${lastAuthorization.date}</p>
 		    <br>
 		</div>
 	</div>
 </div>
 
+
+
 <c:import url="/includes/footer.jsp" />
+<script src="<c:url value="/js/ajax.js"/>"></script>
