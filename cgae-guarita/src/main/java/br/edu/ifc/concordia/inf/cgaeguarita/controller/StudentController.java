@@ -98,7 +98,11 @@ public class StudentController extends AbstractController {
 				List<Authorization> authorization = sbs.getAuthorization(student);
 				try{
 					Authorization lastAuthorization = authorization.get(authorization.size()-1);
-					this.success(student);
+					List<Object> fullResponse = new ArrayList<Object>();
+					fullResponse.add(student);
+					fullResponse.add(lastAuthorization);
+					fullResponse.add(this.userSession.getUser());
+					this.success(fullResponse);//NÃO FUNCIONA
 					this.fail("Not Found");
 					this.result.include("lastAuthorization", lastAuthorization);
 				} catch(Exception e) {
