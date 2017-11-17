@@ -19,16 +19,19 @@
 			</div>
 			<br><br>
 			<hr>
-			<div class="input-field col s12 center-align">
-	           <a class="col s12 ifc-green waves-effect waves-light btn" href="<c:url value="/users/change-data"/>">
-	               Alterar Dados
-	           </a>
-	       </div>
-	       
-	       <div class="input-field col s12 center-align">
-	           <button class="col s12 ifc-green waves-effect waves-light btn" type="submit">
-	               Sair
-	           </button>
+			
+			<div id="studentData">
+				<div class="input-field col s12 center-align">
+		           <a class="col s12 ifc-green waves-effect waves-light btn" href="<c:url value="/users/change-data"/>">
+		               Alterar Dados
+		           </a>
+		       	</div>
+		       
+		       <div class="input-field col s12 center-align">
+		           <button class="col s12 ifc-green waves-effect waves-light btn" type="submit">
+		               Sair
+		           </button>
+		       </div>
 	       </div>
 		</form>
 	</div>

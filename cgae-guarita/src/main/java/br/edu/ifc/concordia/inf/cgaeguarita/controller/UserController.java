@@ -198,7 +198,7 @@ public class UserController extends AbstractController {
 		this.userSession.logout();
 		this.result.redirectTo(this).login("", "", "");
 	}
-
+	
 	//CONTROLE DE USUARIOS
 	@Get(value="/users/control")
 	@NoCache

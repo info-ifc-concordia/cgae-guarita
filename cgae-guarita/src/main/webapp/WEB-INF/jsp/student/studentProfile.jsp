@@ -23,21 +23,22 @@
 		</form>
 	</div>
 	
-	<c:import url="/includes/searchNavBar.jsp" />
+<!-- NAVBAR SEM FORM PARA O AJAX -->
+	<nav class="ifc-green">
+	    <div class="nav-wrapper">
+            <div class="input-field">
+                <input name="registration" id="srcRegistration" type="search" placeholder="Buscar aluno pelo número de matrícula">
+                <i class="material-icons">close</i>
+            </div>
+	    </div>
+	</nav>
+	<br>
 
 <!-- CÓDIGO -->
 <div class="row">
 
 	<div class="col m8 offset-m2">
-			
-		<div class="center">
-		    <img src="<c:url value="/students/${student.registration}/image"/>" 
-		    		class="responsive-img">
-		</div>
-		
-		<h5 class="center-align">${student.name}</h5>
-		<h6 class="center-align">${student.course} - ${student.grade}</h6>
-		
+	
 		<c:if test="${user.userType.equals('Guarita')}">
 			<div class="input-field inline">
 				<h6 class="left-align black-text">Movimento a verificar:</h6>
@@ -49,38 +50,47 @@
 			</div>
 			<br><br>
 		</c:if>
-			
-		<c:if test="${not user.userType.equals('Guarita')}">
-			<div class="input-field right-align">
-		<!-- NOVA OBSERVAÇÃO -->
-				    <a class="ifc-green waves-effect waves-light btn" href="#newAuth">
-				        Nova Observação
-				        <i class="material-icons right">library_add</i>
-				    </a>
-		<!-- VISÃO GERAL -->
-				    <a class="ifc-green waves-effect waves-light btn" href="<c:url value="/students/${student.registration}/autorizacoes" />">
-				        Visão Geral
-				        <i class="material-icons right">visibility</i>
-				    </a>
-		<!-- HISTORICO DO ALUNO -->
-					<a class="ifc-green waves-effect waves-light btn" href="<c:url value="/students/${student.registration}/historical" />">
-				        Historico de Movimentação
-				        <i class="material-icons right">history</i>
-				    </a>
-			</div>
-		</c:if>
 		
-		<div class="card-panel grey lighten-3 z-depth-1">
-			<h5 class="">Última Observação</h5>
-		    <p>${lastAuthorization.description}</p>
-		    <p class="left-align col m6"><b>Autorização dada por: ${lastAuthorization.userName}</b>></p>
-		    <p class="right-align col m6">${lastAuthorization.date}</p>
-		    <br>
+		<div id="studentData">
+			<div class="center">
+			    <img src="<c:url value="/students/${student.registration}/image"/>" 
+			    		class="responsive-img">
+			</div>
+			
+			<h5 class="center-align">${student.name}</h5>
+			<h6 class="center-align">${student.course} - ${student.grade}</h6>
+				
+			<c:if test="${not user.userType.equals('Guarita')}">
+				<div class="input-field right-align">
+			<!-- NOVA OBSERVAÇÃO -->
+					    <a class="ifc-green waves-effect waves-light btn" href="#newAuth">
+					        Nova Observação
+					        <i class="material-icons right">library_add</i>
+					    </a>
+			<!-- VISÃO GERAL -->
+					    <a class="ifc-green waves-effect waves-light btn" href="<c:url value="/students/${student.registration}/autorizacoes" />">
+					        Visão Geral
+					        <i class="material-icons right">visibility</i>
+					    </a>
+			<!-- HISTORICO DO ALUNO -->
+						<a class="ifc-green waves-effect waves-light btn" href="<c:url value="/students/${student.registration}/historical" />">
+					        Historico de Movimentação
+					        <i class="material-icons right">history</i>
+					    </a>
+				</div>
+			</c:if>
+			
+			<div class="card-panel grey lighten-3 z-depth-1">
+				<h5 class="">Última Observação:</h5>
+			    <p>${lastAuthorization.description}</p>
+			    <br>
+			    <p class="left-align col m6"><b>Autorização dada por: ${lastAuthorization.userName}</b></p>
+			    <p class="right-align col m6">${lastAuthorization.date}</p>
+			    <br>
+			</div>
 		</div>
 	</div>
 </div>
-
-
 
 <c:import url="/includes/footer.jsp" />
 <script src="<c:url value="/js/ajax.js"/>"></script>

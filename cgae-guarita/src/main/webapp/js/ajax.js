@@ -1,15 +1,23 @@
 $("document").ready(function(){
-	var registration = $("#registration").val();
-	var movementType = $("#in").val();
-	if (movementType == null){
-		var movementType = $("#out").val();
-	}
-	alert(movementType);
-	/*$.ajax({
-		url:"/students/" + registration + "/historical",
-		type:"POST",
-		data:{
-			movementType:movementType,
-		}
-	});*/
+	$("#srcRegistration").keypress(function(e) {
+	    if(e.which == 13) {
+	    	var studentRegistration = $("#srcRegistration").val();
+	    	$.ajax({
+	    		url:"/cgae-guarita/students/" + studentRegistration + "/profile",
+	    		type:"GET",
+	    		data:{
+	    			registration:studentRegistration,
+	    		},
+	    		success:function(response){
+	    			
+	    			
+	    			//Limpa a barra de pesquisa
+	    			$("#srcRegistration").val("");
+	    		},
+	    		failure:function(response){
+	    			$("document").html(response);
+	    		}
+	    	});
+	    }
+	});
 });

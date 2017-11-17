@@ -90,14 +90,16 @@ public class StudentController extends AbstractController {
 			this.result.notFound();
 		} else {
 			Student student = this.sbs.exists(registration, Student.class);
-			List<Authorization> authorization = sbs.getAuthorization(student);
 			if (student == null) {
 				this.result.notFound();
 			} else {
 				this.result.include("student", student);
 				this.result.include("user", this.userSession.getUser());
+				List<Authorization> authorization = sbs.getAuthorization(student);
 				try{
 					Authorization lastAuthorization = authorization.get(authorization.size()-1);
+					this.success(student);
+					this.fail("Not Found");
 					this.result.include("lastAuthorization", lastAuthorization);
 				} catch(Exception e) {
 					
