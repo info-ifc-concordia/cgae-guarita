@@ -20,11 +20,13 @@ import br.com.caelum.vraptor.Post;
 import br.com.caelum.vraptor.boilerplate.NoCache;
 import br.com.caelum.vraptor.boilerplate.util.GeneralUtils;
 import br.com.caelum.vraptor.observer.upload.UploadedFile;
+import br.edu.ifc.concordia.inf.cgaeguarita.ResponseGroup;
 import br.edu.ifc.concordia.inf.cgaeguarita.abstractions.AbstractController;
 import br.edu.ifc.concordia.inf.cgaeguarita.business.StudentBS;
 import br.edu.ifc.concordia.inf.cgaeguarita.model.Authorization;
 import br.edu.ifc.concordia.inf.cgaeguarita.model.Movement;
 import br.edu.ifc.concordia.inf.cgaeguarita.model.Student;
+import br.edu.ifc.concordia.inf.cgaeguarita.model.User;
 import br.edu.ifc.concordia.inf.cgaeguarita.permission.Permission;
 import br.edu.ifc.concordia.inf.cgaeguarita.permission.UserRoles;
 
@@ -122,7 +124,13 @@ public class StudentController extends AbstractController {
 			String userName = this.userSession.getUser().getUsername();
 			
 			this.sbs.registerNewAuthorization(description, student, date, time, userName);
-			this.result.redirectTo(this).studentProfile(registration);
+			
+			if (this.userSession.getUser().getUserType().equals("Guarita")) {
+				this.result.redirectTo(UserController.class).profileGuarita(registration);
+			}
+			else {
+				this.result.redirectTo(UserController.class).profileCGAE(registration);
+			}
 		}
 	}
 	
@@ -194,7 +202,7 @@ public class StudentController extends AbstractController {
 	}
 	
 	//LISTAGEM DE ALUNOS
-	@Get(value="/students/list")
+	/*@Get(value="/students/list")
 	@NoCache
 	@Permission(UserRoles.NORMAL)
 	public void studentList(List<Student> students, String filter) {
@@ -204,19 +212,17 @@ public class StudentController extends AbstractController {
 		if (!GeneralUtils.isEmpty(filter)) {
 			this.result.include("filter", filter);
 		}
-	}
+	}*/
 	
-	@Post(value="/students/list")
+	@Get(value="/students/list")
 	@NoCache
 	@Permission(UserRoles.NORMAL)
 	public void searchStudent(String registration) {
 		List<Student> students = this.sbs.listStudents(registration);
 		if (students.size() == 0) {
 			this.result.notFound();
-		} else if (students.size() == 1) {
-			this.result.redirectTo(this).studentProfile(students.get(0).getRegistration());
 		} else {
-			this.result.redirectTo(this).studentList(students, registration);
+			this.success(students, (long) students.size());
 		}
 	}
 
@@ -249,8 +255,16 @@ public class StudentController extends AbstractController {
 			if (student == null) {
 				this.result.notFound();
 			} else {
-				List<Movement> movements = sbs.getMovement(student);
-				this.result.include("movements", movements);
+				Date dateTime = new Date();
+				Format dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+				Format timeFormat = new SimpleDateFormat("HH:mm");
+				String date = dateFormat.format(dateTime);
+				String time = timeFormat.format(dateTime);
+				
+				String userName = this.userSession.getUser().getUsername();
+				
+				this.sbs.registerNewMovement(student, date, time, movementType, userName);
+				this.result.nothing();
 			}	
 		}
 	}
@@ -266,8 +280,16 @@ public class StudentController extends AbstractController {
 			if (student == null) {
 				this.result.notFound();
 			} else {
+				User user = this.userSession.getUser();
+				List<Authorization> authorization = sbs.getAuthorization(student);
+				Authorization lastAuthorization = authorization.get(authorization.size()-1);
+				
+				ResponseGroup responseGroup = new ResponseGroup();
+				responseGroup.setAuthorization(lastAuthorization);
+				responseGroup.setStudent(student);
+				responseGroup.setUser(user);
 				try{
-					this.success("Funcionou!");
+					this.success(responseGroup);
 				} catch(Exception e) {
 					this.fail("Sorry, not working.");
 				}

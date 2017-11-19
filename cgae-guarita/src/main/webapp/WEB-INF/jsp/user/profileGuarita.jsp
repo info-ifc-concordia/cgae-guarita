@@ -5,36 +5,40 @@
 
 	<c:import url="/includes/searchNavBar.jsp" />
 	
-	<div class="row">
-		<form class="col s4 offset-s4" method="POST" 
-				action="<c:url value="/users/guarita/profile" />" >
+	<div class="row" >
+		<div class="input-field inline">
+			<h6 class="left-align black-text">Movimento a verificar:</h6>
+			<input name="movementTypeRadio" type="radio" id="in" value="Entrada">
+			<label class="black-text" for="in">Entrada</label>
+	
+			<input name="movementTypeRadio" type="radio" id="out" value="Saída">
+			<label class="black-text" for="out">Saída</label>
+		</div>
+		<br><br>
+		<hr>
 		
-			<div class="input-field inline">
-				<h6 class="left-align black-text">Movimento a verificar:</h6>
-				<input name="movementType" type="radio" id="in" value="Entrada">
-				<label class="black-text" for="in">Entrada</label>
 		
-				<input name="movementType" type="radio" id="out" value="Saída">
-				<label class="black-text" for="out">Saída</label>
-			</div>
-			<br><br>
-			<hr>
-			
-			<div id="studentData">
-				<div class="input-field col s12 center-align">
-		           <a class="col s12 ifc-green waves-effect waves-light btn" href="<c:url value="/users/change-data"/>">
-		               Alterar Dados
-		           </a>
-		       	</div>
-		       
-		       <div class="input-field col s12 center-align">
-		           <button class="col s12 ifc-green waves-effect waves-light btn" type="submit">
-		               Sair
-		           </button>
+		<div id="studentData">
+			<form class="col s4 offset-s4" method="POST" 
+					action="<c:url value="/users/guarita/profile" />" >
+				
+				<div id="clearData"> 
+					<div class="input-field col s12 center-align">
+			           <a class="col s12 ifc-green waves-effect waves-light btn" href="<c:url value="/users/change-data"/>">
+			               Alterar Dados
+			           </a>
+			       	</div>
+			       
+			       <div class="input-field col s12 center-align">
+			           <button class="col s12 ifc-green waves-effect waves-light btn" type="submit">
+			               Sair
+			           </button>
+			       </div>
 		       </div>
-	       </div>
-		</form>
+			</form>
+		</div>
 	</div>
 	
 
 <c:import url="/includes/footer.jsp" />
+<script src="<c:url value="/js/ajax.js" /> "></script>

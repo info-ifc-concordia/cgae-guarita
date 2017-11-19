@@ -24,18 +24,7 @@
 	</div>
 	
 <!-- NAVBAR SEM FORM PARA O AJAX -->
-<nav class="ifc-green">
-    <div class="nav-wrapper">
-           <div class="input-field">
-               <input name="registration" id="srcRegistration" type="search">
-               <label for="srcRegistration" class="white-text search-nav-bar-label">
-                   Buscar aluno pelo número de matrícula
-               </label>
-               <i class="material-icons">close</i>
-           </div>
-    </div>
-</nav>
-<br>
+<c:import url="/includes/searchNavBar.jsp" />
 
 <!-- CÓDIGO -->
 <div class="row">
@@ -61,7 +50,7 @@
 			</div>
 			
 			<h5 class="center-align">${student.name}</h5>
-			<h6 class="center-align">${student.course} - ${student.grade}</h6>
+			<h6 class="center-align">${student.course} - $student.grade}</h6>
 				
 			<c:if test="${not user.userType.equals('Guarita')}">
 				<div class="input-field right-align">

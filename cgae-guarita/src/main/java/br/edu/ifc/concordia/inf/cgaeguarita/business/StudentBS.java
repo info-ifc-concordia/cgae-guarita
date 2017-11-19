@@ -1,5 +1,8 @@
 package br.edu.ifc.concordia.inf.cgaeguarita.business;
 
+import java.text.Format;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.enterprise.context.RequestScoped;
@@ -39,7 +42,18 @@ public class StudentBS extends HibernateBusiness {
 			student.setGrade(grade);
 			imagesUpload.saveImage(studentImg, student);
 			
+			Date dateTime = new Date();
+			Format dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+			Format timeFormat = new SimpleDateFormat("HH:mm");
+			String date = dateFormat.format(dateTime);
+			String time = timeFormat.format(dateTime);
+			
 			this.dao.persist(student);
+			
+			//AUTORIZAÇÃO
+			this.registerNewAuthorization("Aluno registrado no sistema.", student, date, time, "Admin");
+			//MOVIMENTO
+			this.registerNewMovement(student, date, time, "Aluno registrado no sistema.", "Admin");
 		}else {
 			
 		}
@@ -111,7 +125,7 @@ public class StudentBS extends HibernateBusiness {
 	
 	//LISTA MOVIMENTAÇÃO
 	public List<Movement> getMovement(Student student) {
-		Criteria criteria = this.dao.newCriteria(Authorization.class);
+		Criteria criteria = this.dao.newCriteria(Movement.class);
 		criteria.add(Restrictions.eq("student", student));
 		return this.dao.findByCriteria(criteria, Movement.class);
 	}

@@ -3,15 +3,10 @@
 
 <nav class="ifc-green">
     <div class="nav-wrapper">
-        <form method="POST" action="<c:url value="/students/list" />" >
-            <div class="input-field">
-                <input name="registration" id="searchNavBar" type="search" value="${filter}" required>        
-                <label for="searchNavBar" class="white-text search-nav-bar-label">
-                    Buscar aluno pelo número de matrícula
-                </label>
-                <i class="material-icons">close</i>
-            </div>
-        </form>
+           <div class="input-field">
+               <input name="registration" id="srcRegistration" type="search" placeholder="Buscar aluno pelo número de matrícula" value="${filter}">  
+               <i class="material-icons">close</i>
+           </div>
     </div>
 </nav>
 <br>
