@@ -98,15 +98,8 @@ public class StudentController extends AbstractController {
 				List<Authorization> authorization = sbs.getAuthorization(student);
 				try{
 					Authorization lastAuthorization = authorization.get(authorization.size()-1);
-					List<Object> fullResponse = new ArrayList<Object>();
-					fullResponse.add(student);
-					fullResponse.add(lastAuthorization);
-					fullResponse.add(this.userSession.getUser());
-					this.success(fullResponse);//NÃO FUNCIONA
-					this.fail("Not Found");
 					this.result.include("lastAuthorization", lastAuthorization);
 				} catch(Exception e) {
-					
 				}
 			}
 		}
@@ -259,6 +252,26 @@ public class StudentController extends AbstractController {
 				List<Movement> movements = sbs.getMovement(student);
 				this.result.include("movements", movements);
 			}	
+		}
+	}
+
+	//AJAX
+	@Get(value="/students/{registration}/test")
+	@NoCache
+	public void studentResquest(String registration) {
+		if (registration == null) {
+			this.result.notFound();
+		} else {
+			Student student = this.sbs.exists(registration, Student.class);
+			if (student == null) {
+				this.result.notFound();
+			} else {
+				try{
+					this.success("Funcionou!");
+				} catch(Exception e) {
+					this.fail("Sorry, not working.");
+				}
+			}
 		}
 	}
 }

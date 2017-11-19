@@ -24,15 +24,18 @@
 	</div>
 	
 <!-- NAVBAR SEM FORM PARA O AJAX -->
-	<nav class="ifc-green">
-	    <div class="nav-wrapper">
-            <div class="input-field">
-                <input name="registration" id="srcRegistration" type="search" placeholder="Buscar aluno pelo número de matrícula">
-                <i class="material-icons">close</i>
-            </div>
-	    </div>
-	</nav>
-	<br>
+<nav class="ifc-green">
+    <div class="nav-wrapper">
+           <div class="input-field">
+               <input name="registration" id="srcRegistration" type="search">
+               <label for="srcRegistration" class="white-text search-nav-bar-label">
+                   Buscar aluno pelo número de matrícula
+               </label>
+               <i class="material-icons">close</i>
+           </div>
+    </div>
+</nav>
+<br>
 
 <!-- CÓDIGO -->
 <div class="row">
@@ -92,5 +95,5 @@
 	</div>
 </div>
 
-<c:import url="/includes/footer.jsp" />
-<script src="<c:url value="/js/ajax.js"/>"></script>
+<c:import url="/includes/footer.jsp"/>
+<script src="<c:url value="/js/ajax.js" /> "></script>
